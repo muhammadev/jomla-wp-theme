@@ -1,0 +1,160 @@
+/*
+Theme Name: My Theme Child
+Template: astra
+Text Domain: my-theme-child
+Domain Path: /languages
+*/
+
+body,
+.ast-separate-container {
+  background-color: white;
+}
+
+/* give astra container full width on all media screens */
+.ast-container {
+  max-width: 100%;
+}
+
+/* product archive card container padding */
+.ast-separate-container .ast-article-post {
+  padding: 0;
+}
+.ast-article-inner {
+  padding: 0;
+  box-shadow: none !important;
+}
+
+/* header menu */
+@media (min-width: 922px) {
+  .site-header-primary-section-right.site-header-section.ast-flex {
+    justify-content: flex-start;
+  }
+}
+
+.product-slider {
+  max-width: 600px;
+  margin: 0 auto;
+  /* height: 400px; */
+}
+
+.product-slider .slick-track {
+  display: flex;
+  align-items: center;
+}
+
+.product-slider .slick-slide {
+  max-height: 70vh;
+}
+
+.product-slider .slick-slide video {
+  aspect-ratio: 1 / 1;
+}
+
+.product-slider img {
+  width: 100%;
+  height: auto;
+}
+
+/* Navigation Slider */
+.nav-slider {
+  max-width: 200px;
+  margin: 20px auto;
+}
+
+.nav-slider .slick-slide {
+  opacity: 0.5;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.nav-slider .slick-slide.slick-current {
+  opacity: 1;
+}
+
+.nav-slider img {
+  width: 100%;
+  height: auto;
+}
+
+/* .slick-prev,
+.slick-next {
+  position: absolute;
+  top: 50%;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  cursor: pointer;
+  border: none;
+  border-radius: 50%;
+  outline: none;
+  background: #ffffff;
+  z-index: 1;
+  opacity: 0.5;
+}
+
+.slick-prev {
+  inset-inline-start: 0;
+}
+
+.slick-next {
+  inset-inline-end: 0;
+} */
+
+.slick-prev,
+.slick-next {
+  box-shadow: none;
+}
+
+.slick-prev::before,
+.slick-next::before {
+  color: black;
+}
+
+.slick-prev:hover,
+.slick-next:hover {
+  opacity: 1;
+}
+
+.ast-article-post .post-thumb-img-content img {
+  object-fit: cover;
+}
+
+/* Fullscreen overlay */
+.main-slider.fullscreen {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 9999 !important;
+  background: rgba(0, 0, 0, 0.9);
+}
+
+/* Hide body scrollbar */
+body.overflow-hidden {
+  overflow: hidden !important;
+}
+
+/* Adjust Slick elements in fullscreen */
+.main-slider.fullscreen .slick-track,
+.main-slider.fullscreen .slick-slide {
+  height: 100vh !important;
+}
+
+.main-slider.fullscreen .slick-slide img {
+  object-fit: contain !important;
+  max-height: 100vh !important;
+}
+
+/* Exit fullscreen button */
+.main-slider .exit-fullscreen {
+  display: none;
+}
+.main-slider.fullscreen .exit-fullscreen {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  z-index: 10000;
+}
