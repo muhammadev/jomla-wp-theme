@@ -85,3 +85,50 @@ function custom_archive_content()
     }
 }
 add_action('astra_content_loop', 'custom_archive_content');
+
+function force_template_for_all_products($post_id)
+{
+  if (get_post_type($post_id) === 'product') {
+    update_post_meta($post_id, '_wp_page_template', 'product-page.php');
+  }
+}
+add_action('save_post', 'force_template_for_all_products');
+
+add_action('wpml_after_save_post', 'sync_translated_wholesaler_relationship', 10, 1);
+
+function sync_translated_wholesaler_relationship($new_post_id)
+{
+  // Get post data and return if not a product
+  $data = get_post($new_post_id);
+
+  if (!$data || !isset($data->post_type)) {
+    error_log('Invalid post data: ' . print_r($data, true));
+    return;
+  }
+
+  if ($data->post_type !== 'product') return;
+
+  // Get wholesaler relationship
+  $wholesaler = get_field('wholesaler', $new_post_id);
+  if (!$wholesaler) return;
+  // get wholesaler language
+  $wholesaler_language = apply_filters('wpml_element_language', NULL, ['element_id' => $wholesaler->ID, 'element_type' => 'wholesaler']);
+
+  // Get post language
+  $post_language = apply_filters('wpml_element_language_details', NULL, ['element_id' => $new_post_id, 'element_type' => 'post_product']);
+  // $source_language_code = $post_language['language_code'];
+
+  // Return if wholesaler language is the same as post language
+  if ($wholesaler_language->language_code === $post_language->language_code) return;
+
+  // => now the goal is to get the translated wholesaler and update the post with it
+
+  // get translated wholesaler
+  $translated_wholesaler_id = apply_filters('wpml_object_id', $wholesaler->ID, 'wholesaler', false, $post_language->language_code);
+  $translated_wholesaler = get_post($translated_wholesaler_id);
+
+  error_log('Translated Wholesaler ' . print_r($translated_wholesaler, true));
+
+  // Update ACF field with translated relationships
+  update_field('wholesaler', $translated_wholesaler->ID, $new_post_id);
+}
