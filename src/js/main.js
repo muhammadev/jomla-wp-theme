@@ -24,7 +24,7 @@ jQuery(document).ready(function ($) {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: true,
-        fade: true,
+        fade: false,
         asNavFor: `.nav-slider[data-index="${$(container).data("index")}"]`, // Sync with Nav Slider
       });
 
@@ -77,19 +77,24 @@ jQuery(document).ready(function ($) {
   }
 
   // Show only the active color's elements and initialize its sliders
-  function activateColor(index) {
+  function activateColor(index, colorName) {
     // Reinitialize sliders for the active color
     initMainSlider(`.main-slider-container[data-index="${index}"]`);
     initNavSlider(
       `.nav-slider[data-index="${index}"]`,
       `.main-slider-container[data-index="${index}"] .main-slider`
     );
+
+    $("#active_color").text(colorName);
+    console.log(colorName);
+    
   }
 
   // Event listener for color-option buttons
   $(".color-option").on("click", function () {
     const colorIndex = $(this).data("index");
-    activateColor(colorIndex);
+    const colorName = $(this).attr("title");
+    activateColor(colorIndex, colorName);
 
     // Set the active color
     $(".color-option").removeClass("active");

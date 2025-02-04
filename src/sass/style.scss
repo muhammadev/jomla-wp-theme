@@ -3,6 +3,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn-get-it-now {
+  @apply inline-block capitalize bg-blue-800 text-white py-2 px-6 rounded-lg hover:bg-blue-700 hover:text-white focus:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-300 ease-in-out;
+}
+
+.site-main {
+  // @apply container;
+}
+
 /* Your custom styles */
 .color-option {
   width: 50px;
@@ -26,6 +34,26 @@
     box-shadow: 0 3px 0px 0px rgba(0, 0, 0, 1);
 
     img {
+      transform: scale(1.1);
+    }
+  }
+}
+
+.ast-article-post {
+  .ast-grid-common-col {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .post-thumb-img-content img {
+    aspect-ratio: 16 / 9;
+    box-shadow: none;
+    transform: scale(1);
+    transition: transform 0.5s ease;
+  }
+
+  &:hover {
+    .post-thumb-img-content img {
       transform: scale(1.1);
     }
   }

@@ -23,12 +23,12 @@
 >
 	<?php astra_entry_top(); ?>
 
-	<header class="entry-header testtt <?php astra_entry_header_class(); ?>">
+	<header class="entry-header <?php astra_entry_header_class(); ?>">
 
 		<?php
 		astra_the_title(
 			sprintf(
-				'<h2 class="entry-title testtt" ' . astra_attr(
+				'<h2 class="entry-title" ' . astra_attr(
 					'article-title-content',
 					array(
 						'class' => '',
@@ -40,7 +40,7 @@
 		);
 		?>
 
-	</header><!-- .entry-headerrrrrrrrrrrrr -->
+	</header><!-- .entry-header -->
 
 	<div class="entry-content clear"
 	<?php
