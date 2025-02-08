@@ -201,21 +201,21 @@ if ($product_colors) {
         <?php endif; ?>
       </div>
 
-      <!-- Wholesaler -->
+      <!-- brand -->
       <div class="mt-4">
         <?php
-        if (get_field('wholesaler')) :
-          $wholesaler = get_field('wholesaler');
+        if (get_field('brand')) :
+          $brand = get_field('brand');
 
           if ($current_language === 'en') {
-            $wholesaler_en = apply_filters('wpml_object_id', $wholesaler->ID, 'wholesaler', true, 'en');
-            $wholesaler = get_post($wholesaler_en);
+            $brand_en = apply_filters('wpml_object_id', $brand->ID, 'brand', true, 'en');
+            $brand = get_post($brand_en);
           }
         ?>
           <p class="text-base md:text-lg lg:text-xl">
-            <?php echo __('Wholesaler:', 'my-theme-child') ?>
-            <a target="_blank" href="<?php echo get_permalink($wholesaler->ID) ?>">
-              <?php echo $wholesaler->post_title; ?>
+            <?php echo __('Brand:', 'my-theme-child') ?>
+            <a target="_blank" href="<?php echo get_permalink($brand->ID) ?>">
+              <?php echo $brand->post_title; ?>
             </a>
           </p>
         <?php endif; ?>
@@ -243,17 +243,17 @@ if ($product_colors) {
         </div>
       </div>
 
-      <!-- wholesaler's mobile number -->
+      <!-- brand's mobile number -->
       <?php
-      if (get_field('wholesaler')) :
-        $wholesaler = get_field('wholesaler');
-        $wholesaler_mobile = get_field('mobile', $wholesaler->ID);
+      if (get_field('brand')) :
+        $brand = get_field('brand');
+        $brand_mobile = get_field('mobile', $brand->ID);
       ?>
-        <a class="hover:text-white" href="tel:<?php echo $wholesaler_mobile; ?>">
+        <a class="hover:text-white" href="tel:<?php echo $brand_mobile; ?>">
           <div class="my-8 bg-green-500 text-white p-4 rounded">
             <p class="text-base md:text-lg lg:text-xl">
               <?php echo __('Mobile:', 'my-theme-child') ?>
-              <?php echo $wholesaler_mobile; ?>
+              <?php echo $brand_mobile; ?>
             </p>
           </div>
         </a>

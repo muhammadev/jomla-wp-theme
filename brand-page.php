@@ -1,17 +1,17 @@
 <?php
 /*
-Template Name: Wholesaler Page
-Template Post Type: post, page, wholesaler
+Template Name: Brand Page
+Template Post Type: post, page, brand
 */
 
 get_header();
 
-// Get the wholesaler mobile, whatsapp, telegram, and description
-$wholesaler_mobile = get_field('mobile');
-$wholesaler_whatsapp = get_field('whatsapp');
-$wholesaler_telegram = get_field('telegram');
-$wholesaler_description = get_field('description');
-$wholesaler_background_image = get_field('background_image');
+// Get the brand mobile, whatsapp, telegram, and description
+$brand_mobile = get_field('mobile');
+$brand_whatsapp = get_field('whatsapp');
+$brand_telegram = get_field('telegram');
+$brand_description = get_field('description');
+$brand_background_image = get_field('background_image');
 
 function ensure_a_plus_two($number)
 {
@@ -25,9 +25,9 @@ function ensure_a_plus_two($number)
   return $number;
 }
 
-$wholesaler_mobile = ensure_a_plus_two($wholesaler_mobile);
-$wholesaler_whatsapp = ensure_a_plus_two($wholesaler_whatsapp);
-$wholesaler_telegram = ensure_a_plus_two($wholesaler_telegram);
+$brand_mobile = ensure_a_plus_two($brand_mobile);
+$brand_whatsapp = ensure_a_plus_two($brand_whatsapp);
+$brand_telegram = ensure_a_plus_two($brand_telegram);
 
 ?>
 
@@ -35,20 +35,20 @@ $wholesaler_telegram = ensure_a_plus_two($wholesaler_telegram);
   <div
     class="relative text-center h-2/5 min-h-[300px] flex flex-col justify-center items-center"
     <?php
-    if ($wholesaler_background_image) {
-      echo 'style="background-image: url(' . $wholesaler_background_image['url'] . '); background-size: cover; background-position: center; background-repeat: no-repeat;"';
+    if ($brand_background_image) {
+      echo 'style="background-image: url(' . $brand_background_image['url'] . '); background-size: cover; background-position: center; background-repeat: no-repeat;"';
     }
     ?>>
 
     <?php
-    if ($wholesaler_background_image) {
+    if ($brand_background_image) {
       echo '<div class="absolute inset-0 bg-black opacity-40"></div>';
     }
     ?>
 
-    <h1 class="<?php echo ($wholesaler_background_image ? 'text-white' : '') ?> text-3xl md:text-4xl lg:text-6xl my-4 font-bold z-10"><?php the_title(); ?></h1>
-    <p class="<?php echo ($wholesaler_background_image ? 'text-white' : '') ?> text-lg md:text-xl lg:text-2xl z-10">
-      <?php echo $wholesaler_description; ?>
+    <h1 class="<?php echo ($brand_background_image ? 'text-white' : '') ?> text-3xl md:text-4xl lg:text-6xl my-4 font-bold z-10"><?php the_title(); ?></h1>
+    <p class="<?php echo ($brand_background_image ? 'text-white' : '') ?> text-lg md:text-xl lg:text-2xl z-10">
+      <?php echo $brand_description; ?>
     </p>
   </div>
 
@@ -56,33 +56,33 @@ $wholesaler_telegram = ensure_a_plus_two($wholesaler_telegram);
 
 
     <div class="my-12 mx-auto max-w-[80%] flex flex-wrap justify-center gap-5">
-      <a class="flex items-center gap-2" href="tel:<?php echo $wholesaler_mobile ?>">
+      <a class="flex items-center gap-2" href="tel:<?php echo $brand_mobile ?>">
         <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/phone.svg" alt=""></i>
         <p dir="ltr" class="text-md md:text-lg lg:text-xl">
-          <?php echo $wholesaler_mobile; ?>
+          <?php echo $brand_mobile; ?>
         </p>
       </a>
 
-      <a class="flex items-center gap-2" href="https://wa.me/<?php echo $wholesaler_whatsapp ?>" target="_blank">
+      <a class="flex items-center gap-2" href="https://wa.me/<?php echo $brand_whatsapp ?>" target="_blank">
         <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/wa.svg" alt=""></i>
         <p dir="ltr" class="text-base md:text-lg lg:text-xl">
-          <?php echo $wholesaler_whatsapp; ?>
+          <?php echo $brand_whatsapp; ?>
         </p>
       </a>
 
-      <a class="flex items-center gap-2" href="https://t.me/<?php echo $wholesaler_telegram; ?>" target="_blank">
+      <a class="flex items-center gap-2" href="https://t.me/<?php echo $brand_telegram; ?>" target="_blank">
         <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/telegram.svg" alt=""></i>
         <p dir="ltr" class="text-md md:text-lg lg:text-xl">
-          <?php echo $wholesaler_telegram; ?>
+          <?php echo $brand_telegram; ?>
         </p>
       </a>
     </div>
 
-    <div class="wholesaler-gallery">
+    <div class="brand-gallery">
       <?php
       while (have_posts()) : the_post();
 
-        $wholesaler_id = get_the_ID();
+        $brand_id = get_the_ID();
         $current_language = apply_filters('wpml_current_language', NULL);
 
         // Query related products
@@ -90,8 +90,8 @@ $wholesaler_telegram = ensure_a_plus_two($wholesaler_telegram);
           'post_type'  => 'product',
           'meta_query' => array(
             array(
-              'key'     => 'wholesaler',
-              'value'   => $wholesaler_id,
+              'key'     => 'brand',
+              'value'   => $brand_id,
               'compare' => 'LIKE'
             )
           ),
@@ -127,10 +127,8 @@ $wholesaler_telegram = ensure_a_plus_two($wholesaler_telegram);
 
         // Output videos and product details
         if ($related_products) : ?>
-        <?php echo count($related_products); ?>
-          <div class="wholesaler-products">
+          <div class="brand-products">
             <?php foreach ($related_products as $product) :
-              echo $product->post_title . '<br>';
               $product_video_url = get_first_video_from_product($product->ID);
               if ($product_video_url) :
                 // Get product details (title, price, etc.)
@@ -181,8 +179,8 @@ $wholesaler_telegram = ensure_a_plus_two($wholesaler_telegram);
 
       <?php endwhile; ?>
     </div>
-    <div class="wholesaler-info">
-      <div class="wholesaler-description">
+    <div class="brand-info">
+      <div class="brand-description">
         <?php the_content(); ?>
       </div>
     </div>

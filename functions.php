@@ -1,4 +1,23 @@
 <?php
+function add_google_tag()
+{
+?>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-158SF4T4LB"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-158SF4T4LB');
+  </script>
+<?php
+}
+add_action('wp_head', 'add_google_tag');
+
 function enqueue_slider_scripts()
 {
   // Enqueue Slick CSS
@@ -94,9 +113,9 @@ function force_template_for_all_products($post_id)
 }
 add_action('save_post', 'force_template_for_all_products');
 
-add_action('wpml_after_save_post', 'sync_translated_wholesaler_relationship', 10, 1);
+add_action('wpml_after_save_post', 'sync_translated_brand_relationship', 10, 1);
 
-function sync_translated_wholesaler_relationship($new_post_id)
+function sync_translated_brand_relationship($new_post_id)
 {
   // Get post data and return if not a product
   $data = get_post($new_post_id);
@@ -108,27 +127,27 @@ function sync_translated_wholesaler_relationship($new_post_id)
 
   if ($data->post_type !== 'product') return;
 
-  // Get wholesaler relationship
-  $wholesaler = get_field('wholesaler', $new_post_id);
-  if (!$wholesaler) return;
-  // get wholesaler language
-  $wholesaler_language = apply_filters('wpml_element_language', NULL, ['element_id' => $wholesaler->ID, 'element_type' => 'wholesaler']);
+  // Get brand relationship
+  $brand = get_field('brand', $new_post_id);
+  if (!$brand) return;
+  // get brand language
+  $brand_language = apply_filters('wpml_element_language', NULL, ['element_id' => $brand->ID, 'element_type' => 'brand']);
 
   // Get post language
   $post_language = apply_filters('wpml_element_language_details', NULL, ['element_id' => $new_post_id, 'element_type' => 'post_product']);
   // $source_language_code = $post_language['language_code'];
 
-  // Return if wholesaler language is the same as post language
-  if ($wholesaler_language->language_code === $post_language->language_code) return;
+  // Return if brand language is the same as post language
+  if ($brand_language->language_code === $post_language->language_code) return;
 
-  // => now the goal is to get the translated wholesaler and update the post with it
+  // => now the goal is to get the translated brand and update the post with it
 
-  // get translated wholesaler
-  $translated_wholesaler_id = apply_filters('wpml_object_id', $wholesaler->ID, 'wholesaler', false, $post_language->language_code);
-  $translated_wholesaler = get_post($translated_wholesaler_id);
+  // get translated brand
+  $translated_brand_id = apply_filters('wpml_object_id', $brand->ID, 'brand', false, $post_language->language_code);
+  $translated_brand = get_post($translated_brand_id);
 
-  error_log('Translated Wholesaler ' . print_r($translated_wholesaler, true));
+  error_log('Translated Brand ' . print_r($translated_brand, true));
 
   // Update ACF field with translated relationships
-  update_field('wholesaler', $translated_wholesaler->ID, $new_post_id);
+  update_field('brand', $translated_brand->ID, $new_post_id);
 }
