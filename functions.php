@@ -1,7 +1,10 @@
 <?php
+require_once get_stylesheet_directory() . '/includes/product-video-functions.php';
+
 function add_google_tag()
 {
 ?>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-158SF4T4LB"></script>
   <script>
@@ -150,4 +153,18 @@ function sync_translated_brand_relationship($new_post_id)
 
   // Update ACF field with translated relationships
   update_field('brand', $translated_brand->ID, $new_post_id);
+}
+
+
+// Ensure the phone number starts with +2
+function ensure_a_plus_two($number)
+{
+
+  if (preg_match('/^0/', $number)) {
+    $number = '+2' . $number;
+  } elseif (preg_match('/^2/', $number)) {
+    $number = '+' . $number;
+  }
+
+  return $number;
 }

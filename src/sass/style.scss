@@ -58,3 +58,15 @@
     }
   }
 }
+
+.custom-grid {
+  margin-inline: -1rem;
+
+  article {
+    @apply w-full md:w-1/2 lg:w-1/3 xl:w-1/4 !px-4 !mb-8;
+
+    .blog-layout-4 {
+        @apply overflow-hidden rounded-[6px];
+    }
+  }
+}
