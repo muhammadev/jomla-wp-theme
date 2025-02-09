@@ -214,7 +214,7 @@ if ($product_colors) {
         ?>
           <p class="text-base md:text-lg lg:text-xl">
             <?php echo __('Brand:', 'my-theme-child') ?>
-            <a target="_blank" href="<?php echo get_permalink($brand->ID) ?>">
+            <a href="<?php echo get_permalink($brand->ID) ?>">
               <?php echo $brand->post_title; ?>
             </a>
           </p>
@@ -248,15 +248,48 @@ if ($product_colors) {
       if (get_field('brand')) :
         $brand = get_field('brand');
         $brand_mobile = get_field('mobile', $brand->ID);
+        $brand_whatsapp = get_field('whatsapp', $brand->ID);
+        $brand_telegram = get_field('telegram', $brand->ID);
+
+        $brand_mobile = ensure_a_plus_two($brand_mobile);
+        $brand_whatsapp = ensure_a_plus_two($brand_whatsapp);
+        $brand_telegram = ensure_a_plus_two($brand_telegram);
       ?>
-        <a class="hover:text-white" href="tel:<?php echo $brand_mobile; ?>">
-          <div class="my-8 bg-green-500 text-white p-4 rounded">
-            <p class="text-base md:text-lg lg:text-xl">
+        <div class="grid grid-cols-3 gap-4 items-center text-base md:text-lg lg:text-xl">
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-2">
+              <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/phone.svg" alt=""></i>
               <?php echo __('Mobile:', 'my-theme-child') ?>
-              <?php echo $brand_mobile; ?>
-            </p>
+            </span>
           </div>
-        </a>
+          <a dir="ltr" href="tel:<?php echo $brand_mobile; ?>" class="col-span-2 bg-custom-blue text-center text-white hover:text-white p-4 rounded">
+            <?php echo $brand_mobile; ?>
+          </a>
+
+          <?php if (!empty($brand_whatsapp)) : ?>
+            <div class="flex items-center gap-4">
+              <span class="flex items-center gap-2">
+                <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/wa.svg" alt=""></i>
+                <?php echo __('WhatsApp:', 'my-theme-child') ?>
+              </span>
+            </div>
+            <a dir="ltr" href="https://wa.me/<?php echo $brand_whatsapp; ?>" class="col-span-2 bg-custom-blue text-center text-white hover:text-white p-4 rounded">
+              <?php echo $brand_whatsapp; ?>
+            </a>
+          <?php endif; ?>
+
+          <?php if (!empty($brand_telegram)) : ?>
+            <div class="flex items-center gap-4">
+              <span class="flex items-center gap-2">
+                <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/telegram.svg" alt=""></i>
+                <?php echo __('Telegram:', 'my-theme-child') ?>
+              </span>
+            </div>
+            <a dir="ltr" href="https://t.me/<?php echo $brand_telegram; ?>" class="col-span-2 bg-custom-blue text-center text-white hover:text-white p-4 rounded">
+              <?php echo $brand_telegram; ?>
+            </a>
+          <?php endif; ?>
+        </div>
       <?php endif; ?>
 
       <div><?php the_content(); ?></div>
