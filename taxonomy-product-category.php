@@ -12,7 +12,7 @@ get_header(); // Load the theme's header
     <?php
     $term = get_queried_object(); // Get the current term (e.g., "Hats")
     $term_id = $term->term_id;
-    $term_description = term_description($term_id, 'category');
+    $term_description = term_description($term_id);
     ?>
 
     <header class="page-header">
