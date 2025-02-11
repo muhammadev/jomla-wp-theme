@@ -22,7 +22,7 @@ if ($product_colors) {
 ?>
 
 <div>
-  <div class="product-container w-full top-0 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12 p-4">
+  <div class="product-container w-full top-0 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12 px-8 py-4">
     <div class="product-gallery">
       <?php
       if ($product_colors) {
@@ -181,7 +181,7 @@ if ($product_colors) {
       }
       ?>
 
-      <h1 class="text-xl md:text-3xl lg:text-6xl"><?php the_title(); ?></h1>
+      <h1 class="text-xl md:text-3xl lg:text-6xl font-semibold"><?php the_title(); ?></h1>
 
       <!-- Price -->
       <div class="my-8 bg-gray-200 p-4 rounded">
