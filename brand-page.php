@@ -19,9 +19,32 @@ $brand_telegram = ensure_a_plus_two($brand_telegram);
 
 $activeTab = isset($_GET['tab']) ? $_GET['tab'] : 'products';
 
+while (have_posts()) : the_post();
+  $brand_id = get_the_ID();
+  $paged = get_query_var('paged') ? get_query_var('paged') : 1;
+
+  // Query related products
+  $related_products = new WP_Query(array(
+    'post_type'  => 'product',
+    'posts_per_page' => 10,
+    'paged'          => $paged,
+    'meta_query' => array(
+      array(
+        'key'     => 'brand',
+        'value'   => $brand_id,
+        'compare' => '='
+      )
+    ),
+    'suppress_filters' => false,
+  ));
+
+  $number_of_products_on_sale = count_products_on_sale($related_products);
+
+endwhile;
 ?>
 
 <div class="min-h-screen h-fit w-full">
+
   <!-- Brand Header -->
   <div
     class="relative text-center h-2/5 min-h-[300px] flex flex-col justify-center items-center"
@@ -71,117 +94,44 @@ $activeTab = isset($_GET['tab']) ? $_GET['tab'] : 'products';
     </div>
 
     <!-- Tabs -->
-    <div class="w-full h-16 bg-gray-200 grid grid-cols-3 text-base md:text-lg lg:text-xl my-12">
+    <div class="brand-tabs w-full h-16 bg-gray-200 grid grid-cols-3 text-base md:text-lg lg:text-xl my-12">
       <a
-        href="<?php echo get_permalink() . '?tab=products'; ?>"
-        class="flex justify-center items-center h-full cursor-pointer hover:bg-custom-blue hover:text-white <?php echo $activeTab === 'products' ? 'bg-custom-blue text-white' : '' ?>">
-        <?php echo __("Products", "my-theme-child"); ?>
+        href="?tab=products"
+        class="flex justify-center items-center h-full cursor-pointer hover:bg-custom-blue hover:text-white">
+        <?php echo __("All Products", "my-theme-child"); ?>
       </a>
       <a
-        href="<?php echo get_permalink() . '?tab=videos'; ?>"
-        class="flex justify-center items-center h-full cursor-pointer hover:bg-custom-blue hover:text-white <?php echo $activeTab === 'videos' ? 'bg-custom-blue text-white' : '' ?>">
+        href="?tab=videos"
+        class="flex justify-center items-center h-full cursor-pointer hover:bg-custom-blue hover:text-white">
         <?php echo __("Videos", "my-theme-child"); ?>
       </a>
       <a
-        href="<?php echo get_permalink() . '?tab=sales'; ?>"
-        class="flex justify-center items-center h-full cursor-pointer hover:bg-custom-blue hover:text-white <?php echo $activeTab === 'sales' ? 'bg-custom-blue text-white' : '' ?>">
+        href="?tab=sales"
+        class="flex justify-center items-center h-full cursor-pointer hover:bg-custom-blue hover:text-white">
         <?php echo __("Sales", "my-theme-child"); ?>
       </a>
     </div>
 
-    <!-- Products -->
+    <!-- Products|Videos|Sales -->
     <?php
-    while (have_posts()) : the_post();
+    // Output videos and product details
+    if ($related_products->have_posts()) : ?>
+      <div class="astra-container brand-products">
+        <?php display_products($related_products); ?>
+      </div>
 
-      $brand_id = get_the_ID();
-      $current_language = apply_filters('wpml_current_language', NULL);
+      <!-- Brand's Product Videos -->
+      <div class="brand-videos" style="display: none;">
+        <?php display_product_videos($related_products); ?>
+      </div>
 
-      // Query related products
-      $related_products = new WP_Query(array(
-        'post_type'  => 'product',
-        'meta_query' => array(
-          array(
-            'key'     => 'brand',
-            'value'   => $brand_id,
-            'compare' => 'LIKE'
-          )
-        ),
-        'suppress_filters' => false,
-      ));
+      <div class="astra-container brand-sales" style="display: none;">
+        <?php display_products($related_products, true); ?>
+      </div>
+    <?php endif; ?>
 
-      // Output videos and product details
-      if ($related_products->have_posts()) : ?>
-        <?php if ($activeTab === 'products') : ?>
-          <div class="astra-container">
-            <div class="ast-row custom-grid flex flex-row flex-wrap items-stretch">
-              <?php
 
-              while ($related_products->have_posts()) {
-                $related_products->the_post();
-                get_template_part('template-parts/product', 'card');
-              }
-              wp_reset_postdata(); // Add this to restore global post data
-              ?>
-            </div>
-          </div>
 
-        <?php elseif ($activeTab === 'videos') : ?>
-          <!-- Brand's Product Videos -->
-          <div class="brand-gallery">
-            <div class="brand-products">
-              <?php foreach ($related_products as $product) :
-                $product_video_url = get_first_video_from_product($product->ID);
-                if ($product_video_url) :
-                  // Get product details (title, price, etc.)
-                  $product_url = get_permalink($product->ID);
-                  $product_title = get_the_title($product->ID);
-                  $product_price = get_field('price', $product->ID); // Assuming price field exists
-                  $product_description = get_the_excerpt($product->ID); // Or use a custom field for description
-              ?>
-                  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 bg-gray-100 md:bg-transparent rounded md:rounded-none overflow-hidden">
-                    <!-- Video Section -->
-                    <div class="col-span-2 max-h-[400px]">
-                      <video controls class="h-full w-full max-w-[750px] object-contain">
-                        <source src="<?php echo esc_url($product_video_url); ?>" type="video/mp4">
-                        Your browser does not support the video tag.
-                      </video>
-                    </div>
-
-                    <!-- Product Details Section -->
-                    <div class="flex-grow col-span-1 p-4 md:p-0">
-                      <h1 class="text-3xl"><?php echo esc_html($product_title); ?></h1>
-
-                      <div class="my-4">
-                        <!-- if there's an offer, display the price after offer, if not, display the original price -->
-                        <?php if (get_field('offer', $product->ID)) : ?>
-                          <p class="text-lg md:text-2xl lg:text-3xl text-red-500">
-                            <?php echo __('EGP', 'my-theme-child') ?>&nbsp;<?php the_field('price_after_offer', $product->ID); ?>
-                          </p>
-                          <p class="text-sm md:text-md lg:text-lg">
-                            <?php echo __('Instead of', 'my-theme-child') ?>
-                            <span class="line-through">
-                              <?php echo __('EGP', 'my-theme-child') ?>&nbsp;<?php the_field('price', $product->ID); ?>
-                            </span>
-                          </p>
-                        <?php else : ?>
-                          <p class="text-xl md:text-2xl lg:text-3xl"><?php echo __('EGP', 'my-theme-child') ?> <?php the_field('price', $product->ID); ?></p>
-                        <?php endif; ?>
-                      </div>
-
-                      <a href="<?php echo $product_url ?>" target="_blank" class="btn-get-it-now">
-                        <?php echo __("View Product", "my-theme-child") ?>
-                      </a>
-                    </div>
-                  </div>
-              <?php endif;
-              endforeach; ?>
-            </div>
-          </div>
-        <?php elseif ($activeTab === 'sales') : ?>
-          <div>sales</div>
-        <?php endif; ?>
-      <?php endif; ?>
-    <?php endwhile; ?>
 
     <div class="brand-info">
       <div class="brand-description">

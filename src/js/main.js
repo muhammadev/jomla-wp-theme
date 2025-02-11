@@ -2,6 +2,7 @@ import "viewerjs/dist/viewer.css";
 import "../sass/style.scss";
 
 import Viewer from "viewerjs";
+import "./brand";
 
 jQuery(document).ready(function ($) {
   const isRTL = $("html").attr("dir") === "rtl";
@@ -30,25 +31,25 @@ jQuery(document).ready(function ($) {
 
     // Initialize Viewer.js for the current viewer container
     const viewerContainer = $(container).find("#viewer")[0];
-    console.log(container, viewerContainer);
-    const mainSliderViewer = new Viewer(viewerContainer, {
-      movable: false,
-      title: false,
-      navbar: true,
-      toolbar: false,
-    });
-
-    // Handle image click for Viewer.js
-    $(container)
-      .find(".main-slider")
-      .on("click", "img", function () {
-        const dataIndex = $(this).attr("data-index");
-        console.log(dataIndex);
-
-        if (dataIndex !== undefined) {
-          mainSliderViewer.view(dataIndex);
-        }
+    if (viewerContainer) {
+      const mainSliderViewer = new Viewer(viewerContainer, {
+        movable: false,
+        title: false,
+        navbar: true,
+        toolbar: false,
       });
+
+      // Handle image click for Viewer.js
+      $(container)
+        .find(".main-slider")
+        .on("click", "img", function () {
+          const dataIndex = $(this).attr("data-index");
+
+          if (dataIndex !== undefined) {
+            mainSliderViewer.view(dataIndex);
+          }
+        });
+    }
   }
 
   function initNavSlider(activeNavSlider, activeMainSlider) {
@@ -86,8 +87,6 @@ jQuery(document).ready(function ($) {
     );
 
     $("#active_color").text(colorName);
-    console.log(colorName);
-    
   }
 
   // Event listener for color-option buttons

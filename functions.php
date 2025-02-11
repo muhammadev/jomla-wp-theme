@@ -1,5 +1,5 @@
 <?php
-require_once get_stylesheet_directory() . '/includes/product-video-functions.php';
+require_once get_stylesheet_directory() . '/includes/brand-utils.php';
 
 function add_google_tag()
 {
@@ -67,14 +67,24 @@ function product_gallery_slider_shortcode()
 }
 add_shortcode('product_gallery_slider', 'product_gallery_slider_shortcode');
 
-function wpse_242473_add_post_type_to_home($query)
+function modify_home_query(WP_Query $query)
 {
 
-  if ($query->is_main_query() && $query->is_home()) {
+  if (!is_admin() && $query->is_main_query() && $query->is_home()) {
     $query->set('post_type', array('product'));
   }
 }
-add_action('pre_get_posts', 'wpse_242473_add_post_type_to_home');
+add_action('pre_get_posts', 'modify_home_query');
+
+// function modify_taxonomy_archive_query(WP_Query $query)
+// {
+//   if (!is_admin() && $query->is_main_query() && is_tax()) {
+//     $query->set('posts_per_page', 10);
+//     remove_action( 'parse_tax_query', 'astra_blog_post_per_page', 10);
+//   }
+// }
+
+// add_action('pre_get_posts', 'modify_taxonomy_archive_query');
 
 function my_theme_load_textdomain()
 {
