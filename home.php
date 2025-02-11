@@ -24,7 +24,7 @@ get_header(); ?>
     <div class="astra-container">
       <!-- Featured Ad Banner -->
       <a href="">
-        <div class="relative text-center flex flex-col justify-center items-center h-[400px] mb-10 rounded overflow-hidden"
+        <div class="relative text-center flex flex-col justify-center items-center h-[400px] mb-10 overflow-hidden"
           style="background-image: url(http://jomla.test/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-17-at-17.49.59_b2ac5eb2.jpg); background-size: cover; background-position: center; background-repeat: no-repeat;">
           <!-- <img class="object-cover w-full h-full" width="100%" height="100%" src="" alt=""> -->
           <div class="absolute inset-0 bg-black opacity-40"></div>
