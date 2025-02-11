@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Taxonomy Archive Template for 'category'
+ * Taxonomy Archive Template
  */
 
 get_header(); // Load the theme's header
@@ -15,7 +15,7 @@ get_header(); // Load the theme's header
     $term_description = term_description($term_id);
     ?>
 
-    <header class="page-header">
+    <header class="page-header mt-12">
       <!-- Term Title -->
       <h1 class="page-title text-3xl md:text-6xl text-center font-bold">
         <?php single_term_title(); ?>
@@ -49,15 +49,12 @@ get_header(); // Load the theme's header
           // Use your existing content-blog.php template part
           get_template_part('template-parts/content', 'blog');
         endwhile;
-
-        // Pagination
-        the_posts_pagination(array(
-          'prev_text' => __('Previous', 'my-theme-child'),
-          'next_text' => __('Next', 'my-theme-child'),
-        ));
         ?>
       </div><!-- .product-archive-grid -->
     <?php
+      // Pagination
+      astra_pagination();
+
     else :
       // No posts found
       echo '<p class="text-center">' . __('No products found.', 'my-theme-child') . '</p>';
