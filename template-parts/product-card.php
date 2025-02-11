@@ -115,6 +115,21 @@
             <p class="text-sm"><?php the_field('price'); ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?></p>
           <?php endif; ?>
         </div>
+
+        <!-- display brand name if the current page is not a brand archive -->
+        <?php
+        $current_url = $_SERVER['REQUEST_URI'];
+        if (!stripos($current_url, 'brand')) :
+        ?>
+          <div class="mt-3">
+            <?php $brand = get_field('brand'); ?>
+            <a href="<?php echo get_permalink($brand); ?>">
+              <span class="inline-block px-2 rounded-full bg-gray-200 leading-normal text-xs">
+                <?php echo $brand->post_title; ?>
+              </span>
+            </a>
+          </div>
+        <?php endif; ?>
       </div><!-- .entry-content .clear -->
     </div><!-- .post-content -->
   </div><!-- .blog-layout-4 -->
