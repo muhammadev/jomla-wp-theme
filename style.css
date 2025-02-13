@@ -10,16 +10,6 @@ body,
   background-color: white;
 }
 
-/* give astra container full width on all media screens */
-/* .ast-container {
-  max-width: 100%;
-  padding: unset;
-}
-
-.site-primary-header-wrap {
-  padding-inline: 20px;
-} */
-
 /* product archive card container padding */
 .ast-separate-container .ast-article-post {
   padding: 0;
