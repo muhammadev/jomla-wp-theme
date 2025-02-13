@@ -44,7 +44,7 @@ get_header();
   </header>
 
   <?php if ($products_on_sale->have_posts()) : ?>
-    <div class="astra-container brand-products">
+    <div class="astra-container brand-products [&_.brand-pill]:top-0">
       <?php display_products($products_on_sale); ?>
     </div>
   <?php endif; ?>
