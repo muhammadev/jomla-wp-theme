@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Template Name: Sales Archive
+ * Template Name: Sale Archive
  */
 
 $paged = get_query_var('paged') ? get_query_var('paged') : 1;

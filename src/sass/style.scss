@@ -77,8 +77,8 @@
   }
 }
 
-.menu-item.sales {
-  @apply bg-red-700 !text-white;
+.menu-item.sale {
+  @apply bg-red-700 !text-white px-8;
   transition: background-color 0.3s ease;
 
   .menu-link {

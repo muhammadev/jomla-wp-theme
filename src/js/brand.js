@@ -7,7 +7,7 @@ jQuery(function ($) {
 
     function showTab(tab) {
       $(".brand-videos").hide();
-      $(".brand-sales").hide();
+      $(".brand-sale").hide();
       $(".brand-products").hide();
       $(`.brand-${tab}`).show();
 
