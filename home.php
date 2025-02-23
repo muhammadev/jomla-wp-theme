@@ -27,6 +27,7 @@ get_header(); ?>
       <?php display_featured_products(); ?>
 
       <!-- featured brands -->
+      <?php display_featured_brands(); ?>
 
       <!-- filter form -->
       <?php product_filter(); ?>
