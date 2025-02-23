@@ -17,7 +17,7 @@
   <div class="ast-post-format- blog-layout-4 ast-article-inner">
     <div class="post-content ast-grid-common-col">
       <?php if (has_post_thumbnail()) : ?>
-        <div class="ast-blog-featured-section post-thumb ast-blog-single-element mb-4">
+        <div class="ast-blog-featured-section post-thumb ast-blog-single-element mb-4 relative">
           <div class="post-thumb-img-content post-thumb">
             <a href="<?php the_permalink(); ?>">
               <?php
@@ -26,18 +26,31 @@
                 'alt'   => get_the_title(),
                 'itemprop' => 'image',
                 'decoding' => 'async',
-                'fetchpriority' => 'high',
+                'fetchpriority' => 'auto',
               ));
               ?>
             </a>
           </div>
+
+          <!-- display brand name if the current page is not a brand archive -->
+          <?php
+          $current_url = $_SERVER['REQUEST_URI'];
+          if (!stripos($current_url, 'brand')) :
+            $brand = get_field('brand');
+          ?>
+            <a class="brand-pill absolute top-7 start-2 z-10" href="<?php echo get_permalink($brand); ?>">
+              <span class="inline-block px-2 rounded-full bg-black text-white leading-normal text-xs font-semibold">
+                <?php echo $brand->post_title; ?>
+              </span>
+            </a>
+          <?php endif; ?>
         </div>
       <?php endif; ?>
 
       <!-- Display Hierarchical Categories -->
       <?php
       $current_language = apply_filters('wpml_current_language', NULL);
-      $categories = get_the_terms(get_the_ID(), 'product-category'); // Use your taxonomy slug
+      $categories = get_the_terms(get_the_ID(), 'collection'); // Use your taxonomy slug
 
       if ($categories && !is_wp_error($categories)) {
         // Calculate hierarchical depth for each term
@@ -45,7 +58,7 @@
           $depth = 0;
           $current_term = $category;
           while ($current_term->parent != 0) {
-            $current_term = get_term($current_term->parent, 'product-category');
+            $current_term = get_term($current_term->parent, 'collection');
             $depth++;
           }
           $category->depth = $depth;
@@ -64,7 +77,7 @@
           $translated_term_id = apply_filters(
             'wpml_object_id',
             $category->term_id,
-            'product-category',
+            'collection',
             true,
             $current_language
           );
@@ -73,7 +86,7 @@
           // Generate translated term link
           $term_link = apply_filters(
             'wpml_permalink',
-            get_term_link($translated_term_id, 'product-category'),
+            get_term_link($translated_term_id, 'collection'),
             $current_language
           );
 
@@ -97,39 +110,27 @@
         <?php
         // Display the excerpt or custom content
         the_excerpt();
+        $original_price = get_field('price');
+        $has_offer = get_field('offer');
+        $price_after_offer = get_field('price_after_offer');
         ?>
 
         <div class="">
           <!-- if there's an offer, display the price after offer, if not, display the original price -->
-          <?php if (get_field('offer')) : ?>
+          <?php if ($has_offer) : $discount_percent = ceil(100 - ($price_after_offer / $original_price) * 100); ?>
             <p class="text-sm text-red-500 !mb-0">
-              <?php the_field('price_after_offer'); ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?>
+              <?php echo $price_after_offer . ' ' . __('EGP', 'my-theme-child') . ' ' . $discount_percent . '%' ?>
             </p>
             <p class="text-sm !mb-0">
               <?php echo __('Instead of', 'my-theme-child') ?>
               <span class="line-through">
-                <?php the_field('price'); ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?>
+                <?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?>
               </span>
             </p>
           <?php else : ?>
-            <p class="text-sm"><?php the_field('price'); ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?></p>
+            <p class="text-sm"><?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?></p>
           <?php endif; ?>
         </div>
-
-        <!-- display brand name if the current page is not a brand archive -->
-        <?php
-        $current_url = $_SERVER['REQUEST_URI'];
-        if (!stripos($current_url, 'brand')) :
-        ?>
-          <div class="mt-3">
-            <?php $brand = get_field('brand'); ?>
-            <a href="<?php echo get_permalink($brand); ?>">
-              <span class="inline-block px-2 rounded-full bg-gray-200 leading-normal text-xs">
-                <?php echo $brand->post_title; ?>
-              </span>
-            </a>
-          </div>
-        <?php endif; ?>
       </div><!-- .entry-content .clear -->
     </div><!-- .post-content -->
   </div><!-- .blog-layout-4 -->
