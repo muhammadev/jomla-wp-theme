@@ -33,10 +33,19 @@ function count_products_on_sale(WP_Query $products)
   }, 0);
 }
 
-function display_products(WP_Query $products, bool $sales_only = false)
+function count_products_with_videos(WP_Query $products)
+{
+  return array_reduce($products->posts, function ($count, $product) {
+    $hasVideos = get_first_video_from_product($product->ID);
+
+    return $count + ($hasVideos ? 1 : 0);
+  }, 0);
+}
+
+function display_products(WP_Query $products, bool $sale_only = false)
 {
 
-  if (!count($products->posts) || ($sales_only && count_products_on_sale($products) === 0)) {
+  if (!count($products->posts) || ($sale_only && count_products_on_sale($products) === 0)) {
     echo '<p class="text-center">' . __('No products here to see!', 'my-theme-child') . '</p>';
     return;
   }
@@ -47,7 +56,7 @@ function display_products(WP_Query $products, bool $sales_only = false)
     while ($products->have_posts()) : $products->the_post();
       $product_id = get_the_ID();
 
-      if ($sales_only) {
+      if ($sale_only) {
         $is_on_sale = get_field('offer', $product_id) || false;
 
         if ($is_on_sale) {
@@ -90,9 +99,9 @@ function display_product_videos(WP_Query $products)
       $product_price = get_field('price', $product_id);
       $product_price_after_sale = get_field('price_after_offer', $product_id);
     ?>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-4 bg-gray-100 md:bg-transparent rounded md:rounded-none overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-2 gap-4 my-4 bg-gray-100 md:bg-transparent rounded md:rounded-none overflow-hidden">
         <!-- Video Section -->
-        <div class="col-span-2 max-h-[400px]">
+        <div class="col-span-2 lg:col-span-1 max-h-[400px]">
           <video controls class="h-full w-full max-w-[750px] object-contain">
             <source src="<?php echo esc_url($product_video_url); ?>" type="video/mp4">
             Your browser does not support the video tag.
@@ -121,7 +130,7 @@ function display_product_videos(WP_Query $products)
           </div>
 
           <a href="<?php echo $product_url ?>" target="_blank" class="btn-get-it-now">
-            <?php echo __("View Product", "my-theme-child") ?>
+            <?php echo __("More", "my-theme-child") ?>
           </a>
         </div>
       </div>
