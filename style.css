@@ -5,9 +5,21 @@ Text Domain: my-theme-child
 Domain Path: /languages
 */
 
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
+
 body,
 .ast-separate-container {
   background-color: white;
+  font-family: "Roboto", sans-serif;
+}
+
+[dir="rtl"] body,
+[dir="rtl"] .ast-separate-container {
+  font-family: "Cairo", sans-serif;
+}
+
+.site-title a[rel="home"] {
+  font-family: "Roboto", sans-serif;
 }
 
 /* product archive card container padding */
@@ -27,8 +39,8 @@ body,
 }
 
 .product-slider {
-  max-width: 600px;
-  margin: 0 auto;
+  /* max-width: 600px;
+  margin: 0 auto; */
   /* height: 400px; */
 }
 
@@ -43,7 +55,11 @@ body,
 }
 
 .product-slider .slick-slide video {
-  aspect-ratio: 1 / 1;
+  height: 100%;
+  max-height: 70vh;
+  object-fit: contain;
+  object-position: center;
+  margin: 0 auto;
 }
 
 .product-slider img {
