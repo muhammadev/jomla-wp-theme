@@ -15,10 +15,12 @@ get_header(); // Load the theme's header
     $term_description = term_description($term_id);
     ?>
 
-    <header class="page-header mt-12">
+    <header class="page-header h-[25vh] flex flex-col justify-center items-center bg-black mb-12">
       <!-- Term Title -->
-      <h1 class="page-title text-3xl md:text-6xl text-center font-bold">
-        <?php single_term_title(); ?>
+      <h1 class="page-title text-white text-3xl md:text-6xl text-center font-bold mb-0">
+        <?php
+        printf(esc_html__('Explore Our %s Collection', 'my-theme-child'), '<span class="inline-block -skew-x-12 p-4 bg-red-600">' . esc_html(single_term_title('', false)) . '</span>');
+        ?>
       </h1>
 
       <!-- Term Description -->
