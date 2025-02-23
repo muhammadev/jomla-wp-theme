@@ -7,11 +7,11 @@ get_header();
 
 $current_product_id = get_the_ID();
 $current_language = apply_filters('wpml_current_language', NULL);
-$categories = get_the_terms($current_product_id, 'product-category');
-// Get the current product's categories
-$terms = wp_get_post_terms($current_product_id, 'product-category');
+$collections = get_the_terms($current_product_id, 'collection');
+$product_sizes = get_field('product_sizes');
 $product_colors = maybe_unserialize(get_field('product_colors'));
 $color_galleries = array();
+$brand = get_field('brand');
 
 // Get the gallery from $product_colors
 if ($product_colors) {
@@ -21,48 +21,93 @@ if ($product_colors) {
 }
 ?>
 
-<div>
-  <div class="product-container w-full top-0 grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12 px-8 py-4">
-    <div class="product-gallery">
-      <?php
-      if ($product_colors) {
-        foreach ($product_colors as $index => $product_color) {
-          $gallery = $product_color['gallery'];
-      ?>
-          <!-- Main Slider -->
-          <div class="main-slider-container" data-index="<?php echo $index; ?>">
-            <div class="main-slider product-slider">
-              <?php
-              if ($gallery) {
-                foreach ($gallery as $mediaIndex => $media) {
-                  // Handle both array and ID inputs
-                  if (is_array($media)) {
-                    $media_id = $media['id']; // Assuming 'id' exists in the array
-                    $alt = $media['alt'] ?? '';
-                  } else {
-                    $media_id = intval($media);
-                    $alt = get_post_meta($media_id, '_wp_attachment_image_alt', true);
-                  }
+<div class="max-w-[1440px] mx-auto">
+  <div class="product-container w-full top-0 px-8 py-4">
+    <div class="block md:hidden">
+      <!-- Display Hierarchical Categories -->
+      <?php display_hierarchical_collections($collections, $current_language); ?>
 
-                  $media_url = wp_get_attachment_url($media_id);
+      <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold"><?php the_title(); ?></h1>
 
-                  // Check if the media is an image
-                  if (wp_attachment_is_image($media_id)) {
-                    echo '<div><img data-index="' . $mediaIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
-                  } else {
-                    // Video element for non-image media
-                    echo '<div><video controls>
+      <!-- Price -->
+      <div class="my-4">
+        <?php display_product_price(); ?>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12">
+      <div class="product-gallery md:sticky md:top-0 md:h-fit lg:col-span-2">
+        <?php
+        if ($product_colors) {
+          foreach ($product_colors as $index => $product_color) {
+            $gallery = $product_color['gallery'];
+        ?>
+            <!-- Main Slider -->
+            <div class="main-slider-container" data-index="<?php echo $index; ?>">
+              <div class="main-slider product-slider">
+                <?php
+                if ($gallery) {
+                  foreach ($gallery as $mediaIndex => $media) {
+                    // Handle both array and ID inputs
+                    if (is_array($media)) {
+                      $media_id = $media['id']; // Assuming 'id' exists in the array
+                      $alt = $media['alt'] ?? '';
+                    } else {
+                      $media_id = intval($media);
+                      $alt = get_post_meta($media_id, '_wp_attachment_image_alt', true);
+                    }
+
+                    $media_url = wp_get_attachment_url($media_id);
+
+                    // Check if the media is an image
+                    if (wp_attachment_is_image($media_id)) {
+                      echo '<div><img loading="lazy" data-index="' . $mediaIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
+                    } else {
+                      // Video element for non-image media
+                      echo '<div><video loading="lazy" controls>
                                 <source src="' . esc_url($media_url) . '" type="' . esc_attr(get_post_mime_type($media_id)) . '">
                                 Your browser does not support the video tag.
                             </video></div>';
+                    }
                   }
                 }
-              }
-              ?>
+                ?>
+              </div>
+
+              <!-- Viewer -->
+              <div id="viewer" class="w-screen h-screen" style="display: none;" data-index="<?php echo $index; ?>">
+                <?php
+                if ($gallery) {
+                  foreach ($gallery as $mediaIndex => $media) {
+                    // Handle both array and ID inputs
+                    if (is_array($media)) {
+                      $media_id = $media['id']; // Assuming 'id' exists in the array
+                      $alt = $media['alt'] ?? '';
+                    } else {
+                      $media_id = intval($media);
+                      $alt = get_post_meta($media_id, '_wp_attachment_image_alt', true);
+                    }
+
+                    $media_url = wp_get_attachment_url($media_id);
+
+                    // Check if the media is an image
+                    if (wp_attachment_is_image($media_id)) {
+                      echo '<img loading="lazy" class="w-full" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '">';
+                    } else {
+                      echo '<video loading="lazy" controls>
+                                <source src="' . esc_url($media_url) . '" type="' . esc_attr(get_post_mime_type($media_id)) . '">
+                                Your browser does not support the video tag.
+                            </video>';
+                    }
+                  }
+                }
+                ?>
+              </div>
+
             </div>
 
-            <!-- Viewer -->
-            <div id="viewer" class="w-screen h-screen" style="display: none;" data-index="<?php echo $index; ?>">
+            <!-- Navigation Slider (Thumbnails) -->
+            <div class="nav-slider" data-index="<?php echo $index; ?>">
               <?php
               if ($gallery) {
                 foreach ($gallery as $mediaIndex => $media) {
@@ -75,280 +120,104 @@ if ($product_colors) {
                     $alt = get_post_meta($media_id, '_wp_attachment_image_alt', true);
                   }
 
-                  $media_url = wp_get_attachment_url($media_id);
-
                   // Check if the media is an image
                   if (wp_attachment_is_image($media_id)) {
-                    echo '<img class="w-full" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '">';
+                    $thumb_url = wp_get_attachment_image_url($media_id, 'thumbnail');
+                    echo '<div><img loading="lazy" src="' . esc_url($thumb_url) . '" alt="' . esc_attr($alt) . '"></div>';
                   } else {
-                    echo '<video controls>
-                                <source src="' . esc_url($media_url) . '" type="' . esc_attr(get_post_mime_type($media_id)) . '">
-                                Your browser does not support the video tag.
-                            </video>';
+                    // For video thumbnails, get the featured image (or placeholder)
+                    $thumb_url = wp_get_attachment_image_url($media_id, 'thumbnail') ?: esc_url(wp_upload_dir()['baseurl'] . '/custom-uploads/icons8-video-50.png');
+                    echo '<div><img loading="lazy" src="' . esc_url($thumb_url) . '" alt="Video Thumbnail"></div>';
                   }
                 }
               }
               ?>
             </div>
-
-          </div>
-
-          <!-- Navigation Slider (Thumbnails) -->
-          <div class="nav-slider" data-index="<?php echo $index; ?>">
-            <?php
-            if ($gallery) {
-              foreach ($gallery as $mediaIndex => $media) {
-                // Handle both array and ID inputs
-                if (is_array($media)) {
-                  $media_id = $media['id']; // Assuming 'id' exists in the array
-                  $alt = $media['alt'] ?? '';
-                } else {
-                  $media_id = intval($media);
-                  $alt = get_post_meta($media_id, '_wp_attachment_image_alt', true);
-                }
-
-                // Check if the media is an image
-                if (wp_attachment_is_image($media_id)) {
-                  $thumb_url = wp_get_attachment_image_url($media_id, 'thumbnail');
-                  echo '<div><img src="' . esc_url($thumb_url) . '" alt="' . esc_attr($alt) . '"></div>';
-                } else {
-                  // For video thumbnails, get the featured image (or placeholder)
-                  $thumb_url = wp_get_attachment_image_url($media_id, 'thumbnail') ?: esc_url(wp_upload_dir()['baseurl'] . '/custom-uploads/icons8-video-50.png');
-                  echo '<div><img src="' . esc_url($thumb_url) . '" alt="Video Thumbnail"></div>';
-                }
-              }
-            }
-            ?>
-          </div>
-      <?php
-        }
-      }
-      ?>
-    </div>
-
-    <div class="product-details block p-4 bg-gray-100 rounded">
-      <!-- Display Hierarchical Categories -->
-      <?php
-      $categories = get_the_terms(get_the_ID(), 'product-category'); // Use your taxonomy slug
-
-      if ($categories && !is_wp_error($categories)) {
-        // Calculate hierarchical depth for each term
-        foreach ($categories as $category) {
-          $depth = 0;
-          $current_term = $category;
-          while ($current_term->parent != 0) {
-            $current_term = get_term($current_term->parent, 'product-category');
-            $depth++;
-          }
-          $category->depth = $depth;
-        }
-
-        // Sort terms by depth (parents first, children later)
-        usort($categories, function ($a, $b) {
-          return $a->depth - $b->depth;
-        });
-
-        echo '<div class="post-categories mb-2">';
-        $category_links = array();
-
-        foreach ($categories as $category) {
-          // Get translated term
-          $translated_term_id = apply_filters(
-            'wpml_object_id',
-            $category->term_id,
-            'product-category',
-            true,
-            $current_language
-          );
-          $translated_term = get_term($translated_term_id);
-
-          // Generate translated term link
-          $term_link = apply_filters(
-            'wpml_permalink',
-            get_term_link($translated_term_id, 'product-category'),
-            $current_language
-          );
-
-          $category_links[] = sprintf(
-            '<a class="text-xs opacity-50 hover:opacity-100" href="%s">%s</a>',
-            esc_url($term_link),
-            esc_html($translated_term->name)
-          );
-        }
-
-        echo implode(' . ', $category_links);
-        echo '</div>';
-      }
-      ?>
-
-      <h1 class="text-xl md:text-3xl lg:text-6xl font-semibold"><?php the_title(); ?></h1>
-
-      <!-- Price -->
-      <div class="my-8 bg-gray-200 p-4 rounded">
-        <!-- if there's an offer, display the price after offer, if not, display the original price -->
-        <?php if (get_field('offer')) : ?>
-          <p class="text-lg md:text-2xl lg:text-3xl text-red-500">
-            <?php the_field('price_after_offer'); ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?>
-          </p>
-          <p class="text-sm md:text-md lg:text-lg">
-            <?php echo __('Instead of', 'my-theme-child') ?>
-            <span class="line-through">
-              <?php the_field('price'); ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?>
-            </span>
-          </p>
-        <?php else : ?>
-          <p class="text-xl md:text-2xl lg:text-3xl"><?php the_field('price'); ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?></p>
-        <?php endif; ?>
-      </div>
-
-      <!-- brand -->
-      <div class="mt-4">
         <?php
-        if (get_field('brand')) :
-          $brand = get_field('brand');
-
-          if ($current_language === 'en') {
-            $brand_en = apply_filters('wpml_object_id', $brand->ID, 'brand', true, 'en');
-            $brand = get_post($brand_en);
           }
+        }
         ?>
-          <p class="text-base md:text-lg lg:text-xl">
-            <?php echo __('Brand:', 'my-theme-child') ?>
-            <a href="<?php echo get_permalink($brand->ID) ?>">
-              <?php echo $brand->post_title; ?>
-            </a>
-          </p>
-        <?php endif; ?>
       </div>
 
-      <!-- Colors -->
-      <div class="my-8">
-        <div class="my-3">
-          <p class="text-app-gray"><?php echo __('Color:', 'my-theme-child') ?> <span id="active_color"><?php echo $product_colors['0']['color_name'] ?></span></p>
-        </div>
+      <!-- Product Details -->
+      <div class="product-details block px-4 pb-4">
+        <div class="hidden md:block">
+          <!-- Display Hierarchical Categories -->
+          <?php display_hierarchical_collections($collections, $current_language); ?>
 
-        <div class="flex flex-wrap">
-          <?php
-          if ($color_galleries) {
-            foreach ($color_galleries as $color_index => $gallery) {
-              // Get the first image URL of the gallery
-              $first_image = !empty($gallery) ? $gallery[0] : '';
-              $first_image_url = wp_get_attachment_url($first_image['id']);
+          <!-- Product Title -->
+          <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold"><?php the_title(); ?></h1>
 
-              // Display the button with the first image as its background
-              echo '<button title="' . $product_colors[$color_index]['color_name'] . '" data-index="' . $color_index . '" class="color-option border border-black ' . ($color_index === 0 ? 'active' : '') . '"><img src="' . esc_url($first_image_url) . '" alt=""/></button>';
-            }
-          }
-          ?>
-        </div>
-      </div>
-
-      <!-- brand's mobile number -->
-      <?php
-      if (get_field('brand')) :
-        $brand = get_field('brand');
-        $brand_mobile = get_field('mobile', $brand->ID);
-        $brand_whatsapp = get_field('whatsapp', $brand->ID);
-        $brand_telegram = get_field('telegram', $brand->ID);
-
-        $brand_mobile = ensure_a_plus_two($brand_mobile);
-        $brand_whatsapp = ensure_a_plus_two($brand_whatsapp);
-        $brand_telegram = ensure_a_plus_two($brand_telegram);
-      ?>
-        <div class="grid grid-cols-3 gap-4 items-center text-base md:text-lg lg:text-xl">
-          <div class="flex items-center gap-4">
-            <span class="flex items-center gap-2">
-              <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/phone.svg" alt=""></i>
-              <?php echo __('Mobile:', 'my-theme-child') ?>
-            </span>
+          <!-- Price -->
+          <div class="my-4">
+            <?php display_product_price(); ?>
           </div>
-          <a dir="ltr" href="tel:<?php echo $brand_mobile; ?>" class="col-span-2 bg-custom-blue text-center text-white hover:text-white p-4 rounded">
-            <?php echo $brand_mobile; ?>
-          </a>
+        </div>
 
-          <?php if (!empty($brand_whatsapp)) : ?>
-            <div class="flex items-center gap-4">
-              <span class="flex items-center gap-2">
-                <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/wa.svg" alt=""></i>
-                <?php echo __('WhatsApp:', 'my-theme-child') ?>
-              </span>
-            </div>
-            <a dir="ltr" href="https://wa.me/<?php echo $brand_whatsapp; ?>" class="col-span-2 bg-custom-blue text-center text-white hover:text-white p-4 rounded">
-              <?php echo $brand_whatsapp; ?>
-            </a>
-          <?php endif; ?>
+        <!-- Colors -->
+        <div class="mb-8">
+          <div class="mb-3">
+            <p class="text-app-gray"><?php echo esc_html__('Color:', 'my-theme-child') ?> <span id="active_color"><?php echo $product_colors['0']['color']->name ?></span></p>
+          </div>
 
-          <?php if (!empty($brand_telegram)) : ?>
-            <div class="flex items-center gap-4">
-              <span class="flex items-center gap-2">
-                <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/telegram.svg" alt=""></i>
-                <?php echo __('Telegram:', 'my-theme-child') ?>
-              </span>
-            </div>
-            <a dir="ltr" href="https://t.me/<?php echo $brand_telegram; ?>" class="col-span-2 bg-custom-blue text-center text-white hover:text-white p-4 rounded">
-              <?php echo $brand_telegram; ?>
-            </a>
+          <?php display_color_buttons($color_galleries, $product_colors); ?>
+        </div>
+
+        <!-- Available Sizes -->
+        <div class="mb-8">
+          <p class="text-app-gray mb-3"><?php echo esc_html__('Available Sizes:', 'my-theme-child') ?></p>
+
+          <?php display_available_sizes($product_sizes); ?>
+        </div>
+
+        <!-- brand -->
+        <div class="mt-4">
+          <?php
+          if ($brand) :
+
+            if ($current_language === 'en') {
+              $brand_en = apply_filters('wpml_object_id', $brand->ID, 'brand', true, 'en');
+              $brand = get_post($brand_en);
+            }
+          ?>
+            <h2 class="text-lg md:text-xl lg:text-2xl">
+              <?php echo esc_html__('Sold by:', 'my-theme-child') ?>
+              <a class="featured-title" href="<?php echo get_permalink($brand->ID) ?>">
+                <?php echo $brand->post_title; ?>
+              </a>
+            </h2>
           <?php endif; ?>
         </div>
-      <?php endif; ?>
 
-      <div><?php the_content(); ?></div>
+        <div class="my-8">
+          <button id="buy-now" data-modal="brand-contact-info-modal" class="modal-trigger w-full bg-red-600 hover:bg-red-700 focus:bg-red-700 text-white p-4 rounded">
+            <?php echo esc_html__('Buy Now', 'my-theme-child') ?>
+          </button>
+        </div>
+
+        <?php if (get_field('description')) : ?>
+          <!-- Description -->
+          <div class="my-8 rich-text-content">
+            <!-- <h1 class="text-2xl font-semibold mb-4"><?php echo esc_html__('Description', 'my-theme-child') ?></h1> -->
+            <div><?php the_content(); ?></div>
+          </div>
+        <?php endif; ?>
+
+      </div>
     </div>
   </div>
 
   <!-- related products -->
-  <div class="related-products blog p-4 mt-10">
-    <h1 class="text-center text-lg md:text-2xl lg:text-4xl"><?php echo __("Related Products", "my-theme-child") ?></h1>
-
+  <div class="max-w-[100vw] px-5">
     <?php
-    if ($terms && !is_wp_error($terms)) {
-      $term_ids = wp_list_pluck($terms, 'term_id');
-
-      // If WPML is active, get the translated term IDs for all languages
-      // if (function_exists('wpml_object_id')) {
-      //   $translated_term_ids = array();
-      //   foreach ($term_ids as $term_id) {
-      //     $translated_term_ids[] = wpml_get_object_id($term_id, 'product_category', true); // Get the translated term ID
-      //   }
-      //   $term_ids = $translated_term_ids;
-      // }
-
-      $args = array(
-        'post_type'      => 'product',
-        'posts_per_page' => 4,
-        'post__not_in'   => array($current_product_id),
-        'tax_query'      => array(
-          array(
-            'taxonomy' => 'product-category', // Replace with your taxonomy
-            'field'    => 'id',
-            'terms'    => $term_ids,
-          ),
-        ),
-        'suppress_filters' => false, // Allow WPML to filter by language
-      );
-
-      $other_products = new WP_Query($args);
-
-      if ($other_products->have_posts()) {
-        echo '<div class="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 product-archive-grid">';
-
-        while ($other_products->have_posts()) {
-          $other_products->the_post();
-
-          get_template_part('template-parts/product', 'card'); // Adjust the path if needed
-        }
-
-        echo '</div>';
-      } else {
-        echo '<p>' . __("No related products found.", "my-theme-child") . '</p>';
-      }
-
-      wp_reset_postdata();
+    if ($collections && !is_wp_error($collections)) {
+      get_related_products_by_collections($collections, $current_product_id);
     }
+
+    get_other_products_from_brand($brand->ID, $current_product_id);
     ?>
-
   </div>
-</div>
 
+  <?php brand_contact_info_modal($brand->ID); ?>
 
-<?php get_footer(); ?>
+  <?php get_footer(); ?>
