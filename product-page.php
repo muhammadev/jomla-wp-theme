@@ -192,9 +192,19 @@ if ($product_colors) {
         </div>
 
         <div class="my-8">
-          <button id="buy-now" data-modal="brand-contact-info-modal" class="modal-trigger w-full bg-red-600 hover:bg-red-700 focus:bg-red-700 text-white p-4 rounded">
+          <?php $isSoldOut = get_field('sold_out'); ?>
+          <button
+            id="buy-now"
+            class="modal-trigger w-full bg-red-600 hover:bg-red-700 focus:bg-red-700 text-white p-4 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
+            <?php disabled($isSoldOut, true); ?>
+            data-modal="brand-contact-info-modal"
+          >
             <?php echo esc_html__('Buy Now', 'my-theme-child') ?>
           </button>
+
+          <?php if ($isSoldOut) : ?>
+            <p class="text-center text-base text-red-500"><?php echo esc_html__("This product is sold out!", "my-theme-child"); ?></p>
+          <?php endif; ?>
         </div>
 
         <?php if (get_field('description')) : ?>
