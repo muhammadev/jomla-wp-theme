@@ -32,18 +32,29 @@
             </a>
           </div>
 
-          <!-- display brand name if the current page is not a brand archive -->
-          <?php
-          $current_url = $_SERVER['REQUEST_URI'];
-          if (!stripos($current_url, 'brand')) :
-            $brand = get_field('brand');
-          ?>
-            <a class="brand-pill absolute top-7 start-2 z-10" href="<?php echo get_permalink($brand); ?>">
-              <span class="inline-block px-2 rounded-full bg-black text-white leading-normal text-xs font-semibold">
-                <?php echo $brand->post_title; ?>
+          <div class="floating-bar absolute top-7 start-2 z-10">
+            <!-- display brand name if the current page is not a brand archive -->
+            <?php
+            $current_url = $_SERVER['REQUEST_URI'];
+            if (!stripos($current_url, 'brand')) :
+              $brand = get_field('brand');
+            ?>
+              <a class="" href="<?php echo get_permalink($brand); ?>">
+                <span class="inline-block px-2 rounded-full bg-black text-white leading-normal text-xs font-semibold">
+                  <?php echo $brand->post_title; ?>
+                </span>
+              </a>
+            <?php
+            endif;
+
+            $isSoldOut = get_field("sold_out");
+            if ($isSoldOut) :
+            ?>
+              <span class="inline-block px-2 rounded-full bg-gray-400 text-white leading-normal text-xs font-semibold">
+                <?php echo esc_html__("Sold Out", "my-theme-child"); ?>
               </span>
-            </a>
-          <?php endif; ?>
+            <?php endif; ?>
+          </div>
         </div>
       <?php endif; ?>
 
@@ -108,8 +119,6 @@
 
       <div class="entry-content clear" itemprop="text">
         <?php
-        // Display the excerpt or custom content
-        the_excerpt();
         $original_price = get_field('price');
         $has_offer = get_field('offer');
         $price_after_offer = get_field('price_after_offer');
