@@ -163,12 +163,14 @@ if ($product_colors) {
           <?php display_color_buttons($color_galleries, $product_colors); ?>
         </div>
 
+        <?php if (!empty($product_sizes)) : ?>
         <!-- Available Sizes -->
         <div class="mb-8">
           <p class="text-app-gray mb-3"><?php echo esc_html__('Available Sizes:', 'my-theme-child') ?></p>
 
           <?php display_available_sizes($product_sizes); ?>
         </div>
+        <?php endif; ?>
 
         <!-- brand -->
         <div class="mt-4">
