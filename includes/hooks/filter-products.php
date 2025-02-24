@@ -77,7 +77,7 @@ function filter_products()
   if ($query->have_posts()) :
 ?>
     <div>
-      <div class="ast-row">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         <?php
         while ($query->have_posts()) :
           $query->the_post();
