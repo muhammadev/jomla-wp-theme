@@ -1,4 +1,5 @@
 <?php
+require_once get_stylesheet_directory() . '/includes/acf/index.php';
 require_once get_stylesheet_directory() . '/includes/functions/index.php';
 require_once get_stylesheet_directory() . '/includes/brand-utils.php';
 require_once get_stylesheet_directory() . '/includes/product-utils.php';
