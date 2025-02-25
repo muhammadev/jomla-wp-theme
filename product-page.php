@@ -35,8 +35,8 @@ if ($product_colors) {
       </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12">
-      <div class="product-gallery md:sticky md:top-0 md:h-fit lg:col-span-2">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12">
+      <div class="product-gallery md:sticky md:top-0 md:h-fit">
         <?php
         if ($product_colors) {
           foreach ($product_colors as $index => $product_color) {
@@ -61,10 +61,10 @@ if ($product_colors) {
 
                     // Check if the media is an image
                     if (wp_attachment_is_image($media_id)) {
-                      echo '<div><img loading="lazy" data-index="' . $mediaIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
+                      echo '<div><img class="max-h-[80vh] object-contain" loading="lazy" data-index="' . $mediaIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
                     } else {
                       // Video element for non-image media
-                      echo '<div><video loading="lazy" controls>
+                      echo '<div><video loading="lazy" controls class="max-h-[80vh]">
                                 <source src="' . esc_url($media_url) . '" type="' . esc_attr(get_post_mime_type($media_id)) . '">
                                 Your browser does not support the video tag.
                             </video></div>';
