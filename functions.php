@@ -201,3 +201,5 @@ function ensure_a_plus_two($number)
 
   return $number;
 }
+
+require_once get_stylesheet_directory() . '/includes/hooks/remove-comments-from-wordpress.php';
