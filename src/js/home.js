@@ -16,11 +16,10 @@ jQuery(document).ready(function ($) {
       },
     ],
     fade: true,
-    autoplay: false,
+    autoplay: true,
     autoplaySpeed: 5000,
     pauseOnHover: false,
     pauseOnFocus: true,
     pauseOnDotsHover: true,
-    pauseOnFocus: true,
   });
 });

@@ -67,23 +67,6 @@ jQuery(document).ready(function ($) {
       },
     };
 
-    for (const key in filter) {
-      console.log(key, filter[key], !!filter[key].value);
-
-      if (!!filter[key].value && $("#applied-filter-" + key).length === 0) {
-        const $filterItem = $(
-          `<span id="applied-filter-${key}" data-filter="${key}" class="text-sm text-gray-500">${filter[key].label}</span>`
-        );
-
-        $filterItem.on("click", function () {
-          const $filterItem = $(this);
-          $filterItem.remove();
-        });
-
-        $("#applied-filters").append($filterItem);
-      }
-    }
-
     let filterData = {};
 
     for (const key in filter) {
@@ -91,8 +74,6 @@ jQuery(document).ready(function ($) {
         filterData[key] = filter[key].value;
       }
     }
-
-    console.log(filterData);
 
     filterProducts(filterData);
   }
@@ -138,5 +119,5 @@ jQuery(document).ready(function ($) {
 
   repositionFilter();
 
-//   $(window).on("resize", repositionFilter);
+  //   $(window).on("resize", repositionFilter);
 });

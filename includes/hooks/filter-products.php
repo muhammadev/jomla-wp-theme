@@ -2,10 +2,13 @@
 function filter_products()
 {
   $filter_data = isset($_POST['filter_data']) ? $_POST['filter_data'] : [];
+  $paged = isset($_POST['paged']) ? $_POST['paged'] : 1;
+  $base_url = isset($_POST['base_url']) ? $_POST['base_url'] : '';
 
   $args = array(
     'post_type' => 'product',
     'posts_per_page' => -1, // TODO: change to proper number
+    'paged' => $paged,
     'post_status' => 'publish',
     'tax_query' => [],
     'meta_query' => [],
@@ -91,15 +94,7 @@ function filter_products()
       global $wp_query;
       $wp_query = $query;
 
-      if ($query->max_num_pages > 1) : ?>
-        <nav class="flex justify-center mt-4">
-          <ul class="flex items-center space-x-2">
-            <?php
-            astra_pagination();
-            ?>
-          </ul>
-        </nav>
-    <?php endif;
+      // custom_ajax_pagination_links($wp_query, $base_url);
       wp_reset_postdata();
 
     else :

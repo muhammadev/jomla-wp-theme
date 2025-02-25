@@ -4,7 +4,7 @@ import "../sass/style.scss";
 import Viewer from "viewerjs";
 import "./utils";
 import "./brand-utils";
-import "./product-utils";
+import "./home-filter";
 import "./home";
 
 // add loading class to body when there's a request

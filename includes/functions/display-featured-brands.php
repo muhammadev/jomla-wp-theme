@@ -29,21 +29,6 @@ function display_featured_brands()
                   <span class="text-center text-lg font-bold"><?php the_title(); ?></span>
                 </div>
               </a>
-
-              <a class="px-4" href="<?php the_permalink(); ?>">
-                <div class="brand-item p-4 flex flex-col items-center justify-center gap-4 border border-gray-200 rounded-md">
-                  <img class="w-[150px] h-[150px] rounded-full object-cover" src="<?php echo $brand_image; ?>" alt="<?php the_title(); ?>">
-                  <span class="text-center text-lg font-bold"><?php the_title(); ?></span>
-                </div>
-              </a>
-
-              <a class="px-4" href="<?php the_permalink(); ?>">
-                <div class="brand-item p-4 flex flex-col items-center justify-center gap-4 border border-gray-200 rounded-md">
-                  <img class="w-[150px] h-[150px] rounded-full object-cover" src="<?php echo $brand_image; ?>" alt="<?php the_title(); ?>">
-                  <span class="text-center text-lg font-bold"><?php the_title(); ?></span>
-                </div>
-              </a>
-
             <?php
             else :
             ?>

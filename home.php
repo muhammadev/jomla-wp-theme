@@ -16,7 +16,7 @@ get_header(); ?>
   <?php get_sidebar(); ?>
 <?php endif; ?>
 
-<div id="primary">
+<div id="primary" class="pb-10">
   <?php
   astra_primary_content_top();
 
@@ -29,11 +29,14 @@ get_header(); ?>
       <!-- featured brands -->
       <?php display_featured_brands(); ?>
 
-      <!-- filter form -->
-      <?php product_filter(); ?>
+      <div class="flex flex-col lg:flex-row pt-4">
 
-      <!-- filtered products -->
-      <div id="filtered-products" class="mb-10"></div>
+        <!-- filter form -->
+        <?php product_filter(); ?>
+
+        <!-- filtered products -->
+        <div id="filtered-products" class="mb-10 py-5"></div>
+      </div>
     </div>
   <?php
   else :
