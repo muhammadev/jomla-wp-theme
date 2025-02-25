@@ -126,7 +126,7 @@
 
         <div class="">
           <!-- if there's an offer, display the price after offer, if not, display the original price -->
-          <?php if ($has_offer) : $discount_percent = ceil(100 - ($price_after_offer / $original_price) * 100); ?>
+          <?php if ($has_offer) : $discount_percent = ceil(100 - (intval($price_after_offer) / intval($original_price)) * 100); ?>
             <p class="text-sm text-red-500 !mb-0">
               <?php echo $price_after_offer . ' ' . __('EGP', 'my-theme-child') . ' ' . $discount_percent . '%' ?>
             </p>
