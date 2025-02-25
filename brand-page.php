@@ -49,7 +49,7 @@ endwhile;
 
   <!-- Brand Header -->
   <div
-    class="relative text-center h-2/5 min-h-[300px] flex flex-col justify-center items-center"
+    class="relative h-2/5 min-h-[300px] flex justify-center lg:justify-start items-end"
     <?php
     if ($brand_background_image) {
       echo 'style="background-image: url(' . $brand_background_image['url'] . '); background-size: cover; background-position: center; background-repeat: no-repeat;"';
@@ -62,15 +62,21 @@ endwhile;
     }
     ?>
 
-    <?php if ($brand_logo) : ?>
-      <div class="z-10">
-        <img class="rounded-full aspect-square object-cover" width="100px" src="<?php echo $brand_logo; ?>" alt="">
+    <div class="z-10 flex flex-col lg:flex-row flex-wrap justify-center lg:justify-start items-center gap-8 p-4">
+      <?php if ($brand_logo) : ?>
+        <div class="min-w-[150px] lg:min-w-[200px] bg-gray-500/50 p-4 rounded-full lg:rounded-lg">
+          <img class="rounded-full lg:rounded-lg aspect-square object-cover w-[150px] lg:w-[200px]" width="200px" src="<?php echo $brand_logo; ?>" alt="">
+        </div>
+      <?php endif; ?>
+
+      <div class="text-center lg:text-start">
+        <h1 class="text-white text-lg md:text-xl lg:text-3xl mb-4 font-bold"><?php the_title(); ?></h1>
+        <p class="text-white text-base md:text-lg lg:text-xl">
+          <?php echo $brand_description; ?>
+        </p>
       </div>
-    <?php endif; ?>
-    <h1 class="<?php echo ($brand_background_image ? 'text-white' : '') ?> text-3xl md:text-4xl lg:text-6xl my-4 font-bold z-10"><?php the_title(); ?></h1>
-    <p class="<?php echo ($brand_background_image ? 'text-white' : '') ?> text-lg md:text-xl lg:text-2xl z-10">
-      <?php echo $brand_description; ?>
-    </p>
+    </div>
+
   </div>
 
   <div class="ast-container-fluid mx-auto">
