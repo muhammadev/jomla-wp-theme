@@ -53,11 +53,11 @@ function enqueue_assets()
   wp_enqueue_script('slick-js', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js', ['jquery'], '1.8.1', true);
   wp_enqueue_style('tailwind-css', get_stylesheet_directory_uri() . '/dist/tailwind.css');
 
-  // Enqueue Alpine.js from a CDN (or your local copy)
-  // wp_enqueue_script('alpine', 'https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js', array(), '3.0', true);
-
   // Enqueue the child theme's main stylesheet (style.css)
   wp_enqueue_style('child-theme-style', get_stylesheet_uri());
+
+  // Jquery sidebar plugin
+  wp_enqueue_script('jquery-sidebar', get_stylesheet_directory_uri() . '/src/assets/js/jquery.sidebar.min.js');
 
   wp_enqueue_script('theme-scripts', get_stylesheet_directory_uri() . '/dist/js/main.js', [], '1.0.0', true);
 }
