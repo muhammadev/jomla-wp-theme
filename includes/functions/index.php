@@ -10,3 +10,5 @@ require_once get_stylesheet_directory() . '/includes/functions/display-featured-
 require_once get_stylesheet_directory() . '/includes/functions/product-filter.php';
 require_once get_stylesheet_directory() . '/includes/functions/display-featured-brands.php';
 require_once get_stylesheet_directory() . '/includes/functions/ajax-pagination.php';
+require_once get_stylesheet_directory() . '/includes/functions/core/custom-header.php';
+// require_once get_stylesheet_directory() . '/includes/functions/core/custom-footer.php';
