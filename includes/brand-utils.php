@@ -51,7 +51,7 @@ function display_products(WP_Query $products, bool $sale_only = false)
   }
 
 ?>
-  <div class="ast-row custom-grid flex flex-row flex-wrap items-stretch">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
     <?php
     while ($products->have_posts()) : $products->the_post();
       $product_id = get_the_ID();

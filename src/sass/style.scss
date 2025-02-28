@@ -106,11 +106,26 @@ body.admin-bar {
     padding-right: 0;
   }
 
-  .post-thumb-img-content img {
-    aspect-ratio: 1 / 1;
-    box-shadow: none;
-    transform: scale(1);
-    transition: transform 0.5s ease;
+  .ast-article-inner {
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+    overflow: hidden;
+
+    .post-thumb-img-content {
+      overflow: hidden;
+      margin-inline: -1.5em;
+      margin-top: -1.5em;
+      padding-inline: 0;
+
+      img {
+        aspect-ratio: 1 / 1;
+        box-shadow: none;
+        transform: scale(1);
+        transition: transform 0.5s ease;
+      }
+    }
   }
 
   &:hover {

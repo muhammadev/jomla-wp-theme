@@ -44,7 +44,7 @@ get_header();
   </header>
 
   <?php if ($products_on_sale->have_posts()) : ?>
-    <div class="astra-container brand-products [&_.floating-bar]:top-0">
+    <div class="astra-container brand-products">
       <?php display_products($products_on_sale); ?>
     </div>
   <?php endif; ?>
