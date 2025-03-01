@@ -69,6 +69,10 @@
 body.admin-bar {
   .responsive-menu-sidebar {
     top: 32px;
+
+    @media screen and (max-width: 782px) {
+      top: 46px;
+    }
   }
 }
 
@@ -157,6 +161,7 @@ body.admin-bar {
   &-top-level {
     a,
     button {
+      min-height: 68px;
       display: flex;
       align-items: center;
       padding: 1rem;
@@ -171,6 +176,7 @@ body.admin-bar {
       background-color: theme("colors.primary");
       color: #fff;
       transition: background-color 0.3s ease;
+      font-weight: 500;
 
       &:hover {
         background-color: theme("colors.primary-light");
@@ -309,7 +315,7 @@ body.loading {
     button.close {
       position: absolute;
       top: 0;
-      inset-inline-end: 10px;
+      inset-inline-end: 0px;
       margin: 0;
       padding: 0;
       border-radius: 50%;
