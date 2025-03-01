@@ -1,4 +1,7 @@
 jQuery(document).ready(function ($) {
+  const isRTL = $("html").attr("dir") === "rtl";
+  window.isRTL = isRTL;
+
   $(".menu-item-has-children > .menu-toggler").on("click", function (e) {
     e.preventDefault();
     // close all other sub-menus if not the same parent
@@ -18,9 +21,10 @@ jQuery(document).ready(function ($) {
   });
 
   // responsive menu
-  $("#masthead .responsive-menu-sidebar").sidebar({ side: "left" });
+  $("#masthead .responsive-menu-sidebar").sidebar({ side: isRTL ? "right" : "left" });
 
   function toggleMenuSidebar() {
+    $("body").toggleClass("overflow-hidden");
     $("#masthead .responsive-menu-sidebar").trigger("sidebar:toggle");
     $("#masthead .responsive-menu-sidebar .backdrop").toggleClass("hidden");
     $("#masthead .responsive-menu-sidebar #close-sidebar").toggleClass(
