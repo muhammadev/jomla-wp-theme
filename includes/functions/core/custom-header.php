@@ -96,7 +96,7 @@ if (! function_exists('jumla_primary_menu')) {
     <div class="responsive-menu-sidebar fixed lg:hidden top-0 start-[-300px] bg-white w-[300px] h-screen">
       <div class="relative w-full h-full">
         <div class="backdrop hidden fixed top-0 left-0 w-screen h-screen bg-black/10"></div>
-        <ul class="flex flex-col relative z-10 bg-white h-full">
+        <ul class="flex flex-col relative z-10 bg-white h-full overflow-auto">
           <?php
           foreach ($menu_tree as $menu_item) {
             get_menu_item($menu_item, true);
@@ -127,15 +127,23 @@ if (! function_exists('my_theme_custom_header')) {
             <?php echo get_bloginfo('name'); ?>
           </a>
 
-          <div class="site-navigation flex items-center gap-5">
+          <div class="hidden md:block">
+            <!-- <input id="global-search" type="search" class="search-field" placeholder="Search" /> -->
+            <?php get_search_form(); ?>
+          </div>
+
+          <div class="site-navigation flex items-center gap-1 lg:gap-5">
             <?php jumla_primary_menu(); ?>
 
-            <div class="hidden md:block">
-              <input id="global-search" type="search" class="search-field" placeholder="Search" />
-            </div>
+            <button
+              id="search-toggler"
+              class="modal-trigger reset-button border-none shadow-none inline-block md:hidden"
+              data-modal="search-modal">
+              <img width="16px" src="<?php echo get_stylesheet_directory_uri() . '/src/assets/imgs/search-icon.svg'; ?>" title="open search" alt="open search">
+            </button>
 
             <button id="menu-toggler" class="reset-button border-none shadow-none inline-block lg:hidden">
-              <img width="16px" src="<?php echo get_stylesheet_directory_uri() . '/src/assets/imgs/burger-menu.svg'; ?>" title="open menu" alt="">
+              <img width="16px" src="<?php echo get_stylesheet_directory_uri() . '/src/assets/imgs/burger-menu.svg'; ?>" title="open menu" alt="open menu">
             </button>
           </div>
         </div>

@@ -62,6 +62,8 @@ if ( apply_filters( 'astra_header_profile_gmpg_link', true ) ) {
 	// astra_header();
   my_theme_custom_header();
 
+  search_modal();
+
 	astra_header_after();
 
 	astra_content_before();
