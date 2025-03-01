@@ -106,6 +106,11 @@ endwhile;
       </a>
     </div>
 
+    <!-- Description -->
+    <div class="brand-description rich-text-content">
+      <?php the_content(); ?>
+    </div>
+
     <!-- Tabs -->
     <div class="brand-tabs w-full h-16 flex justify-center text-base md:text-lg lg:text-xl my-12">
       <a
