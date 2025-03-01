@@ -6,6 +6,7 @@ import "./utils";
 import "./brand-utils";
 import "./home-filter";
 import "./home";
+import "./header";
 
 // add loading class to body when there's a request
 jQuery(document).ajaxStart(function () {

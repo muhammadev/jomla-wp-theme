@@ -16,11 +16,12 @@
   <?php astra_entry_top(); ?>
   <div class="ast-post-format- blog-layout-4 ast-article-inner">
     <div class="post-content ast-grid-common-col">
-      <?php if (has_post_thumbnail()) : ?>
-        <div class="ast-blog-featured-section post-thumb ast-blog-single-element mb-4 relative">
-          <div class="post-thumb-img-content post-thumb">
-            <a href="<?php the_permalink(); ?>">
-              <?php
+      <div class="ast-blog-featured-section post-thumb ast-blog-single-element mb-4 relative">
+        <div class="post-thumb-img-content post-thumb">
+          <a href="<?php the_permalink(); ?>">
+            <?php
+            if (has_post_thumbnail()) {
+
               the_post_thumbnail('large', array(
                 'class' => 'attachment-large size-large wp-post-image',
                 'alt'   => get_the_title(),
@@ -28,35 +29,39 @@
                 'decoding' => 'async',
                 'fetchpriority' => 'auto',
               ));
-              ?>
-            </a>
-          </div>
-
-          <div class="floating-bar absolute top-7 start-2 z-10">
-            <!-- display brand name if the current page is not a brand archive -->
-            <?php
-            $current_url = $_SERVER['REQUEST_URI'];
-            if (!stripos($current_url, 'brand')) :
-              $brand = get_field('brand');
+            } else {
             ?>
-              <a class="" href="<?php echo get_permalink($brand); ?>">
-                <span class="inline-block px-2 rounded-full bg-black text-white leading-normal text-xs font-semibold">
-                  <?php echo $brand->post_title; ?>
-                </span>
-              </a>
+              <img src="https://placehold.co/600x400?text=JumlaBox&font=roboto" alt="JumlaBox">
             <?php
-            endif;
-
-            $isSoldOut = get_field("sold_out");
-            if ($isSoldOut) :
+            }
             ?>
-              <span class="inline-block px-2 rounded-full bg-gray-400 text-white leading-normal text-xs font-semibold">
-                <?php echo esc_html__("Sold Out", "my-theme-child"); ?>
-              </span>
-            <?php endif; ?>
-          </div>
+          </a>
         </div>
-      <?php endif; ?>
+
+        <div class="floating-bar absolute top-7 start-2 z-10">
+          <!-- display brand name if the current page is not a brand archive -->
+          <?php
+          $current_url = $_SERVER['REQUEST_URI'];
+          if (!stripos($current_url, 'brand')) :
+            $brand = get_field('brand');
+          ?>
+            <a class="" href="<?php echo get_permalink($brand); ?>">
+              <span class="inline-block px-2 rounded-full bg-black text-white leading-normal text-xs font-semibold">
+                <?php echo $brand->post_title; ?>
+              </span>
+            </a>
+          <?php
+          endif;
+
+          $isSoldOut = get_field("sold_out");
+          if ($isSoldOut) :
+          ?>
+            <span class="inline-block px-2 rounded-full bg-gray-400 text-white leading-normal text-xs font-semibold">
+              <?php echo esc_html__("Sold Out", "my-theme-child"); ?>
+            </span>
+          <?php endif; ?>
+        </div>
+      </div>
 
       <!-- Display Hierarchical Categories -->
       <?php
