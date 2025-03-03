@@ -47,6 +47,7 @@ if ($product_colors) {
               <div class="main-slider product-slider">
                 <?php
                 if ($gallery) {
+                  $viewerIndex = 0;
                   foreach ($gallery as $mediaIndex => $media) {
                     // Handle both array and ID inputs
                     if (is_array($media)) {
@@ -61,7 +62,8 @@ if ($product_colors) {
 
                     // Check if the media is an image
                     if (wp_attachment_is_image($media_id)) {
-                      echo '<div><img class="max-h-[80vh] object-contain" loading="lazy" data-index="' . $mediaIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
+                      echo '<div><img class="max-h-[80vh] object-contain" loading="lazy" data-index="' . $viewerIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
+                      $viewerIndex++;
                     } else {
                       // Video element for non-image media
                       echo '<div><video loading="lazy" controls class="max-h-[80vh]">
