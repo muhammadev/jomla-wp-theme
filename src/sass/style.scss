@@ -172,6 +172,14 @@ body.admin-bar {
       }
     }
 
+    &.footer-menu-item {
+      a,
+      button {
+        padding: 0 0 0.5rem 0;
+        min-height: auto;
+      }
+    }
+
     &.sale a {
       background-color: theme("colors.primary");
       color: #fff;
@@ -216,7 +224,7 @@ body.admin-bar {
 }
 
 ul:not(.sub-menu) {
-  & > li.menu-item {
+  & > li.menu-item:not(.footer-menu-item) {
     & > .sub-menu {
       position: absolute;
       top: 100%;

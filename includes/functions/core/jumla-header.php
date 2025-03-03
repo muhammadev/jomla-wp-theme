@@ -1,10 +1,10 @@
 <?php
 
-if (! function_exists('menu_item')) {
-  function get_menu_item($menu_item, $top_level = false)
+if (! function_exists('get_menu_item')) {
+  function get_menu_item($menu_item, $top_level = false, $extra_classes = '')
   {
     $has_children = !empty($menu_item->children);
-    $item_classes = [];
+    $item_classes = [$extra_classes];
 
     if ($top_level) {
       $item_classes[] = "menu-item-top-level";
