@@ -15,6 +15,11 @@ function filter_products()
     'suppress_filters' => false,
   );
 
+  // add search query
+  if (!empty($filter_data['search'])) {
+    $args['s'] = sanitize_text_field($filter_data['search']);
+  }
+
   // add tax query for collection
   if (!empty($filter_data['collection'])) {
     $args['tax_query'][] = [
@@ -89,17 +94,23 @@ function filter_products()
 
         ?>
       </div>
-      <?php
-      // Ensure pagination works with Astra
-      global $wp_query;
-      $wp_query = $query;
+    <?php
+    // Ensure pagination works with Astra
+    global $wp_query;
+    $wp_query = $query;
 
-      // custom_ajax_pagination_links($wp_query, $base_url);
-      wp_reset_postdata();
+    // custom_ajax_pagination_links($wp_query, $base_url);
+    wp_reset_postdata();
 
-    else :
-      echo 'No products found.';
-    endif;
+  else :
+    ?>
+      <div class="text-center w-full h-full py-10 flex flex-col justify-center items-center">
+        <img width="200px" src="<?php echo get_stylesheet_directory_uri() . '/src/assets/imgs/no-results.png'; ?>" alt="No products found" class="mx-auto w-[200px]" />
+        <p class="my-5 text-lg"><?php echo esc_html__('No products found.', 'my-theme-child'); ?></p>
+        <button type="button" class="clear-filters-btn reset-button text-red-500 !border-red-500 hover:bg-red-500 hover:text-white"><?php echo esc_html__("Clear Filters", "my-theme-child"); ?></button>
+      </div>
+    <?php
+  endif;
     ?>
     </div>
   <?php

@@ -3,14 +3,22 @@
 function product_filter()
 {
 ?>
-  <div id="product-filter" class="pt-4 px-5 lg:sticky lg:top-0 lg:h-fit lg:max-w-[250px]">
+  <div id="product-filter" class="py-4 px-5 lg:sticky lg:top-0 lg:h-fit lg:w-[300px] flex-shrink-0">
     <div id="inline-filter-container">
       <form id="product-filter-form" method="GET" action="<?php echo admin_url('admin-ajax.php'); ?>" class="">
         <div class="block lg:flex flex-wrap justify-start items-center gap-5 my-5 [&>div]:border-b-2 [&>div]:border-gray-200 [&>div]:pb-5 lg:[&>div]:border-b-0 lg:[&>div]:pb-0">
+          <!-- Search Filter -->
+          <div class="flex flex-col items-start gap-3 mb-4 lg:mb-0 w-full">
+            <label for="search-filter" class="text-base"><?php echo esc_html__("Search", "my-theme-child"); ?></label>
+            <div class="relative w-full search-input-group">
+              <input id="search-filter" name="search" type="search" class="search-field" placeholder="<?php echo esc_html__('Search by product name...', 'my-theme-child'); ?>" value="<?php echo get_search_query(); ?>" name="s" />
+            </div>
+          </div>
+
           <!-- Collections Filter (assuming it's a taxonomy) -->
-          <div class="flex flex-col items-start gap-3 mb-4 lg:mb-0">
+          <div class="flex flex-col items-start gap-3 mb-4 lg:mb-0 w-full">
             <label for="collection" class="text-base"> <?php echo esc_html__("Collection", "my-theme-child"); ?> </label>
-            <select id="collection" name="collection" class="w-full lg:w-[200px]">
+            <select id="collection" name="collection" class="w-full">
               <option value=""> <?php echo esc_html__("All Collections", "my-theme-child"); ?> </option>
               <?php
               $collections = get_terms([
@@ -32,9 +40,9 @@ function product_filter()
           </div>
 
           <!-- Brand Filter -->
-          <div class="flex flex-col items-start gap-3 mb-4 lg:mb-0">
+          <div class="flex flex-col items-start gap-3 mb-4 lg:mb-0 w-full">
             <label for="brand" class="text-base"> <?php echo esc_html__("Brand", "my-theme-child"); ?> </label>
-            <select id="brand" name="brand" class="w-full lg:w-[200px]">
+            <select id="brand" name="brand" class="w-full">
               <option value=""><?php echo esc_html__("All Brands", "my-theme-child"); ?></option>
               <?php
               // Example: Query brand CPT to fill options
@@ -59,9 +67,9 @@ function product_filter()
           </div>
 
           <!-- Color Filter -->
-          <div class="flex flex-col items-start gap-3 mb-4 lg:mb-0">
+          <div class="flex flex-col items-start gap-3 mb-4 lg:mb-0 w-full">
             <label for="color" class="text-base"> <?php echo esc_html__("Color", "my-theme-child"); ?> </label>
-            <select id="color" name="color" class="w-full lg:w-[200px]">
+            <select id="color" name="color" class="w-full">
               <option value=""> <?php echo esc_html__("All Colors", "my-theme-child"); ?> </option>
               <?php
               $colors = get_terms([
@@ -83,7 +91,7 @@ function product_filter()
             </select>
           </div>
 
-          <div class="text-start flex flex-col gap-3 mb-4 lg:mb-0">
+          <div class="text-start flex flex-col gap-3 mb-4 lg:mb-0 w-full">
             <label for="price-from" class="text-base"><?php echo esc_html__("Price From (EGP)", "my-theme-child"); ?></label>
             <input id="price-from" name="price-from" type="number" min="0" class="!w-[100px]" />
 
@@ -92,7 +100,7 @@ function product_filter()
           </div>
 
           <!-- On Sale Filter (assuming on sale is determined by a custom field) -->
-          <div class="min-w-fit mb-4 lg:mb-0 !border-b-0 !pb-0">
+          <div class="min-w-fit mb-4 lg:mb-0 !border-b-0 !pb-0 w-full">
             <label class="flex-grow flex items-center gap-2">
               <input class="w-4 h-4" type="checkbox" name="sale" <?php checked($_GET['sale'] ?? '', '0'); ?>>
 
@@ -101,11 +109,11 @@ function product_filter()
           </div>
         </div>
 
-        <!-- <hr class="hidden lg:block h-[1px] w-full"> -->
-        <!--
-        <div class="flex lg:hidden justify-center">
-          <input class="reset-button" type="submit" value="<?php echo esc_html__("Apply Filters", "my-theme-child"); ?>">
-        </div> -->
+        <hr class="hidden lg:block h-[1px] w-full">
+
+        <div class="lg:block flex justify-center mt-4">
+          <button class="reset-button" type="submit"><?php echo esc_html__("Apply Filters", "my-theme-child"); ?></button>
+        </div>
       </form>
     </div>
 
@@ -115,7 +123,7 @@ function product_filter()
         <?php echo esc_html__("Filter", "my-theme-child"); ?>
       </button>
 
-      <button id="clear-filters" type="button" class="reset-button text-red-500 !border-red-500 hover:bg-red-500 hover:text-white"><?php echo esc_html__("Clear Filters", "my-theme-child"); ?></button>
+      <button type="button" class="clear-filters-btn reset-button text-red-500 !border-red-500 hover:bg-red-500 hover:text-white"><?php echo esc_html__("Clear Filters", "my-theme-child"); ?></button>
     </div>
 
     <?php product_filter_modal(); ?>

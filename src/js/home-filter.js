@@ -4,9 +4,10 @@ jQuery(document).ready(function ($) {
 
   const $filteredProducts = $("#filtered-products");
   const $productFilterForm = $("#product-filter-form");
-  const $clearFilters = $("#clear-filters");
+  const $clearFilters = $(".clear-filters-btn");
 
   const formFields = {
+    search: $productFilterForm.find("input[name='search']"),
     collection: $productFilterForm.find("select[name='collection']"),
     brand: $productFilterForm.find("select[name='brand']"),
     color: $productFilterForm.find("select[name='color']"),
@@ -15,15 +16,14 @@ jQuery(document).ready(function ($) {
     priceTo: $productFilterForm.find("input[name='price-to']"),
   };
 
-  formFields.collection.on("change", applyFilters);
-  formFields.brand.on("change", applyFilters);
-  formFields.color.on("change", applyFilters);
-  formFields.sale.on("change", applyFilters);
-  formFields.priceFrom.on("input", window.myDebounce(applyFilters, 500));
-  formFields.priceTo.on("input", window.myDebounce(applyFilters, 500));
+  $productFilterForm.on("submit", function (e) {
+    e.preventDefault();
+    applyFilters();
+  });
 
   function hasFilters() {
     return (
+      formFields.search.val() ||
       formFields.collection.val() ||
       formFields.brand.val() ||
       formFields.color.val() ||
@@ -41,6 +41,10 @@ jQuery(document).ready(function ($) {
     }
 
     const filter = {
+      search: {
+        value: formFields.search.val(),
+        label: formFields.search.val(),
+      },
       collection: {
         value: formFields.collection.val(),
         label: formFields.collection.find("option:selected").text(),
@@ -76,6 +80,14 @@ jQuery(document).ready(function ($) {
     }
 
     filterProducts(filterData);
+
+    const modal = $productFilterForm.closest(".modal");
+    if (modal.length) {
+      const modalCloseBtn = modal.find(".close");
+      modalCloseBtn.click();
+    } else {
+      console.log("No modal");
+    }
   }
 
   function filterProducts(filter) {
@@ -94,7 +106,8 @@ jQuery(document).ready(function ($) {
 
   applyFilters();
 
-  $clearFilters.on("click", function () {
+  $(document).on("click", ".clear-filters-btn", function () {
+    formFields.search.val("");
     formFields.collection.val("");
     formFields.brand.val("");
     formFields.sale.prop("checked", false);
@@ -118,6 +131,4 @@ jQuery(document).ready(function ($) {
   }
 
   repositionFilter();
-
-  //   $(window).on("resize", repositionFilter);
 });

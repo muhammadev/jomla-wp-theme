@@ -35,7 +35,7 @@ get_header(); ?>
         <?php product_filter(); ?>
 
         <!-- filtered products -->
-        <div id="filtered-products" class="mb-10 py-5"></div>
+        <div id="filtered-products" class="mb-10 py-5 w-full"></div>
       </div>
     </div>
   <?php
