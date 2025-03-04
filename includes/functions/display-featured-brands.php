@@ -51,7 +51,9 @@ function display_featured_brands()
 
     <script>
       jQuery(document).ready(function($) {
+        const isRTL = $("html").attr("dir") === "rtl";
         $('.featured-brands-slider').slick({
+          rtl: isRTL,
           slidesToShow: 4,
           slidesToScroll: 1,
           autoplay: false,
