@@ -3,7 +3,7 @@ jQuery(document).ready(function ($) {
   window.isRTL = isRTL;
 
   $(".featured-products-slider").slick({
-    rtl: window.isRTL,
+    rtl: isRTL,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
