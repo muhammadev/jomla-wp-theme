@@ -319,6 +319,8 @@ body.loading {
 .modal {
   .modal-content {
     position: relative;
+    max-height: 90vh;
+    overflow: auto;
 
     button.close {
       position: absolute;
@@ -483,4 +485,10 @@ button.slick-arrow {
     top: 50%;
     inset-inline-start: 50%;
   }
+}
+
+.search-filter {
+    .search-input-group {
+        flex-grow: 1;
+    }
 }
