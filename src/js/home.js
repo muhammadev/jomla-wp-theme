@@ -15,7 +15,6 @@ jQuery(document).ready(function ($) {
         },
       },
     ],
-    fade: true,
     autoplay: true,
     autoplaySpeed: 5000,
     pauseOnHover: false,

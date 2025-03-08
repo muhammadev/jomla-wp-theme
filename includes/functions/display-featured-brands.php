@@ -6,6 +6,14 @@ function display_featured_brands()
     'post_type' => 'brand',
     'posts_per_page' => 10,
     'post_status' => 'publish',
+    'meta_query' => array(
+      array(
+        'key' => 'featured_brand',
+        'value' => '1',
+        'compare' => '='
+      )
+    ),
+    'suppress_filters' => false,
   ];
 
   $brands = new WP_Query($args);
