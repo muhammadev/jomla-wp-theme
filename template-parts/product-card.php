@@ -107,7 +107,7 @@
           );
 
           $category_links[] = sprintf(
-            '<a class="text-xs opacity-50 hover:opacity-100" href="%s">%s</a>',
+            '<a class="text-sm opacity-50 hover:opacity-100" href="%s">%s</a>',
             esc_url($term_link),
             esc_html($translated_term->name)
           );
@@ -118,7 +118,7 @@
       }
       ?>
 
-      <h2 class="entry-title ast-blog-single-element" itemprop="headline">
+      <h2 class="entry-title ast-blog-single-element text-2xl" itemprop="headline">
         <a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
       </h2>
 
@@ -132,17 +132,17 @@
         <div class="">
           <!-- if there's an offer, display the price after offer, if not, display the original price -->
           <?php if ($has_offer) : $discount_percent = ceil(100 - (intval($price_after_offer) / intval($original_price)) * 100); ?>
-            <p class="text-sm text-red-500 !mb-0">
+            <p class="text-base text-red-500 !mb-0">
               <?php echo $price_after_offer . ' ' . __('EGP', 'my-theme-child') . ' ' . $discount_percent . '%' ?>
             </p>
-            <p class="text-sm !mb-0">
+            <p class="text-base !mb-0">
               <?php echo __('Instead of', 'my-theme-child') ?>
               <span class="line-through">
                 <?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?>
               </span>
             </p>
           <?php else : ?>
-            <p class="text-sm"><?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?></p>
+            <p class="text-base"><?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?></p>
           <?php endif; ?>
         </div>
       </div><!-- .entry-content .clear -->
