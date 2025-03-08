@@ -14,3 +14,5 @@ require_once get_stylesheet_directory() . '/includes/functions/core/jumla-header
 require_once get_stylesheet_directory() . '/includes/functions/core/jumla-footer.php';
 require_once get_stylesheet_directory() . '/includes/functions/search-modal.php';
 require_once get_stylesheet_directory() . '/includes/functions/footer-widgets.php';
+require_once get_stylesheet_directory() . '/includes/functions/custom-search.php';
+require_once get_stylesheet_directory() . '/includes/functions/core/jumla-pagination.php';

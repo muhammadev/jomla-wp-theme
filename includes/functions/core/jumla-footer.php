@@ -61,6 +61,8 @@ if (! function_exists('get_menu_children')) {
 if (! function_exists('jumla_footer_menu')) {
   function jumla_footer_menu()
   {
+    ob_start();
+
     // Get the menu assigned to the 'footer' location.
     $locations = get_nav_menu_locations();
     if (!isset($locations['footer_menu'])) {
@@ -92,7 +94,7 @@ if (! function_exists('jumla_footer_menu')) {
       }
     }
   ?>
-    <ul class="flex flex-col relative z-10 bg-white h-full overflow-auto">
+    <ul class="flex flex-col relative z-10 overflow-auto">
       <?php
       foreach ($menu_tree as $menu_item) {
         get_menu_item($menu_item, true, 'footer-menu-item');
@@ -100,34 +102,92 @@ if (! function_exists('jumla_footer_menu')) {
       ?>
     </ul>
   <?php
+
+    return ob_get_clean();
   }
 }
 
 function jumla_footer()
 {
+  $contact_settings = get_field('contact_settings', 'option');
+  $phone = $contact_settings ? $contact_settings['phone'] : '';
+  $email = $contact_settings ? $contact_settings['email'] : '';
+  $address = $contact_settings ? $contact_settings['address'] : '';
+
+  $footer_settings = get_field('footer_settings', 'option');
+  $footer_logo = $footer_settings ? $footer_settings['footer_logo'] : '';
+  $footer_description = $footer_settings ? $footer_settings['footer_description'] : '';
+  $footer_copyright = $footer_settings ? $footer_settings['footer_copyright'] : '';
+
+  $social_links = get_field("social_links", "option");
+
+  $showContactUs = $phone || $email || $address;
+  $showSocialLinks = !empty($social_links);
   ?>
-  <footer class="border-t-2 p-5 pt-8" role="contentinfo">
-    <div class="footer-widgets">
-      <div class="container">
-        <div class="flex flex-wrap justify-center gap-8">
-          <div class="rich-text-content max-w-[40%]">
+  <footer class="border-t-2 py-8" role="contentinfo">
+    <div class="container mx-auto px-5">
+      <div class="flex flex-col md:flex-row flex-wrap items-center md:items-start gap-8">
+        <?php if ($footer_logo || $footer_description) : ?>
+          <div class="lg:max-w-[40%] text-center lg:text-start">
+            <?php if ($footer_logo) : ?>
+              <img class="h-[200px] mx-auto" src="<?php echo $footer_logo['url'] ?>" alt="<?php echo $footer_logo['alt'] ?>" />
+            <?php else : ?>
+              <a href="<?php echo get_home_url(); ?>" class="site-brand inline-block text-3xl font-bold px-4 mb-5">
+                <?php echo get_bloginfo('name'); ?>
+              </a>
             <?php
-            if (is_active_sidebar('footer-about-area')) {
-              dynamic_sidebar('footer-about-area');
-            }
+            endif;
+
+            if ($footer_description) :
             ?>
+              <p><?php echo $footer_description ?></p>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
 
-            <div class="">
-              <p>&copy; <?php echo date('Y'); ?> <?php echo get_bloginfo('name'); ?>. <?php echo esc_html__("All Rights Reserved.", "my-theme-child"); ?></p>
+        <div class="flex justify-center flex-wrap gap-12">
+          <?php if ($showContactUs) : ?>
+            <div>
+              <h3 class="text-xl font-bold mb-4"><?php echo esc_html__("Contact Us", "my-theme-child"); ?></h3>
+              <div class="flex flex-col gap-4">
+                <a dir="ltr" class="rtl:text-end" href="tel:<?php echo $phone ?>"><?php echo $phone ?></a>
+                <a dir="ltr" class="rtl:text-end" href="mailto:<?php echo $email ?>"><?php echo $email ?></a>
+                <a href="<?php echo $address['url'] ?>" target="<?php echo $address['target'] ? $address['target'] : '_self' ?>"><?php echo esc_attr($address['title']) ?></a>
+              </div>
             </div>
-          </div>
+          <?php endif; ?>
 
-          <div>
-            <h3 class="text-xl font-bold mb-4"><?php echo esc_html__("Quick Links", "my-theme-child"); ?></h3>
-            <?php jumla_footer_menu(); ?>
-          </div>
+          <?php
+          $footer_menu = jumla_footer_menu();
+          if (!empty($footer_menu)) :
+          ?>
+            <div>
+              <h3 class="text-xl font-bold mb-4"><?php echo esc_html__("Quick Links", "my-theme-child"); ?></h3>
+              <?php echo $footer_menu; ?>
+            </div>
+          <?php endif; ?>
+
+          <?php if ($showSocialLinks) : ?>
+            <div class="h-fit flex gap-4">
+              <?php
+              foreach ($social_links as $social_link) {
+              ?>
+                <a class="w-8" href="<?php echo $social_link['url'] ?>" target="_blank" rel="noopener noreferrer">
+                  <img src="<?php echo $social_link['icon']['url'] ?>" alt="<?php echo $social_link['icon']['alt'] ?>" />
+                </a>
+              <?php
+              }
+              ?>
+            </div>
+          <?php endif; ?>
         </div>
       </div>
+
+      <?php if ($footer_copyright) : ?>
+        <div class="mt-8 text-center">
+          <p><?php echo $footer_copyright; ?></p>
+        </div>
+      <?php endif; ?>
     </div>
   </footer>
 <?php

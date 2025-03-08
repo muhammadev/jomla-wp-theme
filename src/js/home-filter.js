@@ -33,7 +33,8 @@ jQuery(document).ready(function ($) {
     );
   }
 
-  function applyFilters() {
+  // apply filters to products
+  function applyFilters(page = 1) {
     if (!hasFilters()) {
       $clearFilters.hide();
     } else {
@@ -79,22 +80,27 @@ jQuery(document).ready(function ($) {
       }
     }
 
-    filterProducts(filterData);
+    filterProducts(filterData, page);
 
     const modal = $productFilterForm.closest(".modal");
-    if (modal.length) {
+    try {
       const modalCloseBtn = modal.find(".close");
       modalCloseBtn.click();
-    } else {
-      console.log("No modal");
+    } catch (error) {
+      console.error("Error closing modal:", error);
     }
   }
 
-  function filterProducts(filter) {
+  // create the ajax request to filter products
+  function filterProducts(filter, page = 1) {
     $.ajax({
       url: $productFilterForm.attr("action"),
       method: "POST",
-      data: { action: "filter_products", filter_data: filter },
+      data: {
+        action: "filter_products",
+        filter_data: filter,
+        page,
+      },
       success: function (response) {
         $filteredProducts.html(response);
       },
@@ -106,7 +112,7 @@ jQuery(document).ready(function ($) {
 
   applyFilters();
 
-  $(document).on("click", ".clear-filters-btn", function () {
+  function resetFormFields() {
     formFields.search.val("");
     formFields.collection.val("");
     formFields.brand.val("");
@@ -114,6 +120,10 @@ jQuery(document).ready(function ($) {
     formFields.priceFrom.val("");
     formFields.priceTo.val("");
     formFields.color.val("");
+  }
+
+  $(document).on("click", ".clear-filters-btn", function () {
+    resetFormFields();
 
     applyFilters();
   });
@@ -131,4 +141,17 @@ jQuery(document).ready(function ($) {
   }
 
   repositionFilter();
+
+  // listen to ajax pagination event
+  document.addEventListener("ajaxPaginationTriggered", function (e) {
+    const key = e.detail.key || "";
+    const url = new URL(e.detail.url);
+    const page = url.searchParams.get("page") || 1;
+
+    console.log("Ajax pagination triggered", key, page);
+
+    if (key === "home-filter") {
+      applyFilters(page);
+    }
+  });
 });

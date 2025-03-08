@@ -121,13 +121,26 @@ if (! function_exists('my_theme_custom_header')) {
 
       <div class="ast-container">
 
-        <div class="ast-flex justify-between items-center gap-5 main-header-container">
+        <div class="ast-flex justify-between items-center gap-5 main-header-container flex-nowrap">
 
-          <a href="<?php echo get_home_url(); ?>" class="site-brand text-xl md:text-2xl lg:text-3xl font-bold p-4">
-            <?php echo get_bloginfo('name'); ?>
-          </a>
+          <?php
+          $main_logo = get_field("main_website_logo", "option");
+          if ($main_logo) {
+          ?>
+            <a href="<?php echo get_home_url(); ?>" class="site-brand text-xl md:text-2xl lg:text-3xl font-bold py-2 h-14">
+              <img class="h-full" height="50px" src="<?php echo $main_logo; ?>" alt="" />
+            </a>
+          <?php
+          } else {
+          ?>
+            <a href="<?php echo get_home_url(); ?>" class="site-brand inline-block text-xl md:text-2xl lg:text-3xl font-bold p-4">
+              <?php echo get_bloginfo('name'); ?>
+            </a>
+          <?php
+          }
+          ?>
 
-          <div class="hidden md:block">
+          <div class="hidden md:block lg:hidden xl:block lg:px-5 flex-grow">
             <!-- <input id="global-search" type="search" class="search-field" placeholder="Search" /> -->
             <?php get_search_form(); ?>
           </div>
@@ -137,7 +150,7 @@ if (! function_exists('my_theme_custom_header')) {
 
             <button
               id="search-toggler"
-              class="modal-trigger reset-button border-none shadow-none inline-block md:hidden"
+              class="modal-trigger reset-button border-none shadow-none inline-block md:hidden lg:inline-block xl:hidden"
               data-modal="search-modal">
               <img width="16px" src="<?php echo get_stylesheet_directory_uri() . '/src/assets/imgs/search-icon.svg'; ?>" title="open search" alt="open search">
             </button>

@@ -124,6 +124,8 @@ body.admin-bar {
       padding-inline: 0;
 
       img {
+        max-height: 40vh;
+        margin-inline: auto;
         aspect-ratio: 1 / 1;
         box-shadow: none;
         transform: scale(1);
@@ -153,7 +155,7 @@ body.admin-bar {
 
 .brand-tabs {
   a.active {
-    @apply bg-custom-blue text-white;
+    @apply bg-primary text-white;
   }
 }
 
@@ -200,13 +202,17 @@ body.admin-bar {
 
     .sub-menu {
       display: none;
-      z-index: 999;
-      background-color: #fff;
-      min-width: 200px;
 
       &.active {
         display: block;
         animation: fadeIn 0.3s ease;
+      }
+    }
+    &:not(.footer-menu-item) {
+      .sub-menu {
+        z-index: 999;
+        background-color: #fff;
+        min-width: 200px;
       }
     }
   }
@@ -410,6 +416,9 @@ body.loading {
 }
 
 .featured-products-slider {
+  height: 400px;
+  overflow: hidden;
+
   button.slick-arrow {
     opacity: 0;
   }
@@ -488,7 +497,7 @@ button.slick-arrow {
 }
 
 .search-filter {
-    .search-input-group {
-        flex-grow: 1;
-    }
+  .search-input-group {
+    flex-grow: 1;
+  }
 }
