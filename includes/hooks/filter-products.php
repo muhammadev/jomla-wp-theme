@@ -2,18 +2,23 @@
 function filter_products()
 {
   $filter_data = isset($_POST['filter_data']) ? $_POST['filter_data'] : [];
-  $paged = isset($_POST['paged']) ? $_POST['paged'] : 1;
-  $base_url = isset($_POST['base_url']) ? $_POST['base_url'] : '';
+  $paged = isset($_POST['page']) ? $_POST['page'] : 1;
+  $base_url = isset($_POST['base_url']) ? $_POST['base_url'] : home_url();
 
   $args = array(
     'post_type' => 'product',
-    'posts_per_page' => -1, // TODO: change to proper number
+    'posts_per_page' => 2, // TODO: change to proper number
     'paged' => $paged,
     'post_status' => 'publish',
     'tax_query' => [],
     'meta_query' => [],
     'suppress_filters' => false,
   );
+
+  // add search query
+  if (!empty($filter_data['search'])) {
+    $args['s'] = sanitize_text_field($filter_data['search']);
+  }
 
   // add tax query for collection
   if (!empty($filter_data['collection'])) {
@@ -79,30 +84,44 @@ function filter_products()
 
   if ($query->have_posts()) :
 ?>
-    <div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-        <?php
-        while ($query->have_posts()) :
-          $query->the_post();
-          get_template_part('template-parts/content', 'blog'); // Load a custom template part for home page
-        endwhile;
-
-        ?>
-      </div>
+    <div class="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
       <?php
-      // Ensure pagination works with Astra
-      global $wp_query;
-      $wp_query = $query;
+      while ($query->have_posts()) :
+        $query->the_post();
+        get_template_part('template-parts/content', 'blog'); // Load a custom template part for home page
+      endwhile;
 
-      // custom_ajax_pagination_links($wp_query, $base_url);
-      wp_reset_postdata();
-
-    else :
-      echo 'No products found.';
-    endif;
-    ?>
+      ?>
     </div>
   <?php
+    // Ensure pagination works with Astra
+    global $wp_query;
+    $wp_query = $query;
+
+    jumla_pagination(
+      array(
+        'total' => $query->max_num_pages,
+        'current' => $paged,
+        'base_url' => $base_url,
+        'range' => 2,
+      ),
+      true,
+      true,
+      'home-filter'
+    );
+
+    // custom_ajax_pagination_links($wp_query, $base_url);
+    wp_reset_postdata();
+
+  else :
+  ?>
+    <div class="text-center w-full h-full py-10 flex flex-col justify-center items-center">
+      <img width="200px" src="<?php echo get_stylesheet_directory_uri() . '/src/assets/imgs/no-results.png'; ?>" alt="No products found" class="mx-auto w-[200px]" />
+      <p class="my-5 text-lg"><?php echo esc_html__('No products found.', 'my-theme-child'); ?></p>
+      <button type="button" class="clear-filters-btn reset-button text-red-500 !border-red-500 hover:bg-red-500 hover:text-white"><?php echo esc_html__("Clear Filters", "my-theme-child"); ?></button>
+    </div>
+<?php
+  endif;
 
   wp_die(); // Always call this to end AJAX requests
 }

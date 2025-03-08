@@ -124,6 +124,8 @@ body.admin-bar {
       padding-inline: 0;
 
       img {
+        max-height: 40vh;
+        margin-inline: auto;
         aspect-ratio: 1 / 1;
         box-shadow: none;
         transform: scale(1);
@@ -153,7 +155,7 @@ body.admin-bar {
 
 .brand-tabs {
   a.active {
-    @apply bg-custom-blue text-white;
+    @apply bg-primary text-white;
   }
 }
 
@@ -169,6 +171,14 @@ body.admin-bar {
 
       &:hover {
         color: theme("colors.primary");
+      }
+    }
+
+    &.footer-menu-item {
+      a,
+      button {
+        padding: 0 0 0.5rem 0;
+        min-height: auto;
       }
     }
 
@@ -192,13 +202,17 @@ body.admin-bar {
 
     .sub-menu {
       display: none;
-      z-index: 999;
-      background-color: #fff;
-      min-width: 200px;
 
       &.active {
         display: block;
         animation: fadeIn 0.3s ease;
+      }
+    }
+    &:not(.footer-menu-item) {
+      .sub-menu {
+        z-index: 999;
+        background-color: #fff;
+        min-width: 200px;
       }
     }
   }
@@ -216,7 +230,7 @@ body.admin-bar {
 }
 
 ul:not(.sub-menu) {
-  & > li.menu-item {
+  & > li.menu-item:not(.footer-menu-item) {
     & > .sub-menu {
       position: absolute;
       top: 100%;
@@ -311,6 +325,8 @@ body.loading {
 .modal {
   .modal-content {
     position: relative;
+    max-height: 90vh;
+    overflow: auto;
 
     button.close {
       position: absolute;
@@ -400,6 +416,9 @@ body.loading {
 }
 
 .featured-products-slider {
+  height: 400px;
+  overflow: hidden;
+
   button.slick-arrow {
     opacity: 0;
   }
@@ -474,5 +493,11 @@ button.slick-arrow {
     transform: translate(-50%, -50%) rotateZ(45deg);
     top: 50%;
     inset-inline-start: 50%;
+  }
+}
+
+.search-filter {
+  .search-input-group {
+    flex-grow: 1;
   }
 }

@@ -27,7 +27,7 @@ while (have_posts()) : the_post();
   // Query related products
   $related_products = new WP_Query(array(
     'post_type'  => 'product',
-    'posts_per_page' => 10,
+    'posts_per_page' => -1,
     'paged'          => $paged,
     'meta_query' => array(
       array(
@@ -62,7 +62,7 @@ endwhile;
     }
     ?>
 
-    <div class="z-10 flex flex-col lg:flex-row flex-wrap justify-center lg:justify-start items-center gap-8 p-4">
+    <div class="container mx-auto z-10 flex flex-col lg:flex-row justify-center lg:justify-start items-center gap-8 p-4">
       <?php if ($brand_logo) : ?>
         <div class="min-w-[150px] lg:min-w-[200px] bg-gray-500/50 p-4 rounded-full lg:rounded-lg">
           <img class="rounded-full lg:rounded-lg aspect-square object-cover w-[150px] lg:w-[200px]" width="200px" src="<?php echo $brand_logo; ?>" alt="">
@@ -79,7 +79,7 @@ endwhile;
 
   </div>
 
-  <div class="ast-container-fluid mx-auto">
+  <div class="container mx-auto">
     <!-- Brand's Contact Info -->
     <div class="my-12 mx-auto max-w-[80%] flex flex-wrap justify-center gap-5">
       <a class="flex items-center gap-2" href="tel:<?php echo $brand_mobile ?>">
@@ -108,55 +108,53 @@ endwhile;
 
     <!-- Description -->
     <div class="brand-description rich-text-content">
-      <?php the_content(); ?>
+      <?php the_content(true, true); ?>
     </div>
 
-    <!-- Tabs -->
-    <div class="brand-tabs w-full h-16 flex justify-center text-base md:text-lg lg:text-xl my-12">
-      <a
-        href="?tab=products"
-        class="flex-grow flex justify-center items-center h-full cursor-pointer bg-gray-200 hover:bg-custom-blue hover:text-white">
-        <?php echo __("All Products", "my-theme-child"); ?>
-      </a>
-      <?php if ($number_of_products_with_videos > 0) : ?>
+    <?php if ($number_of_products_with_videos > 0 || $number_of_products_on_sale) : ?>
+      <!-- Tabs -->
+      <div class="brand-tabs w-full h-16 flex justify-center text-base md:text-lg lg:text-xl my-12 rounded-lg overflow-hidden">
         <a
-          href="?tab=videos"
-          class="flex-grow flex justify-center items-center h-full cursor-pointer bg-gray-200 hover:bg-custom-blue hover:text-white">
-          <?php echo __("Videos", "my-theme-child"); ?>
+          href="?tab=products"
+          class="flex-grow flex justify-center items-center h-full cursor-pointer bg-gray-200 hover:bg-primary hover:text-white">
+          <?php echo __("All Products", "my-theme-child"); ?>
         </a>
-      <?php endif; ?>
-      <?php if ($number_of_products_on_sale > 0) : ?>
-        <a
-          href="?tab=sale"
-          class="flex-grow flex justify-center items-center h-full cursor-pointer bg-gray-200 hover:bg-custom-blue hover:text-white">
-          <?php echo __("Sale", "my-theme-child"); ?>
-        </a>
-      <?php endif; ?>
-    </div>
+        <?php if ($number_of_products_with_videos > 0) : ?>
+          <a
+            href="?tab=videos"
+            class="flex-grow flex justify-center items-center h-full cursor-pointer bg-gray-200 hover:bg-primary hover:text-white">
+            <?php echo __("Videos", "my-theme-child"); ?>
+          </a>
+        <?php endif; ?>
+        <?php if ($number_of_products_on_sale > 0) : ?>
+          <a
+            href="?tab=sale"
+            class="flex-grow flex justify-center items-center h-full cursor-pointer bg-gray-200 hover:bg-primary hover:text-white">
+            <?php echo __("Sale", "my-theme-child"); ?>
+          </a>
+        <?php endif; ?>
+      </div>
+    <?php endif; ?>
 
     <!-- Products|Videos|Sale -->
     <?php
     // Output videos and product details
     if ($related_products->have_posts()) : ?>
-      <div class="astra-container brand-products">
-        <?php display_products($related_products); ?>
-      </div>
+      <div class="my-12">
+        <div class="brand-products">
+          <?php display_products($related_products); ?>
+        </div>
 
-      <!-- Brand's Product Videos -->
-      <div class="brand-videos" style="display: none;">
-        <?php display_product_videos($related_products); ?>
-      </div>
+        <!-- Brand's Product Videos -->
+        <div class="brand-videos" style="display: none;">
+          <?php display_product_videos($related_products); ?>
+        </div>
 
-      <div class="astra-container brand-sale" style="display: none;">
-        <?php display_products($related_products, true); ?>
+        <div class="brand-sale" style="display: none;">
+          <?php display_products($related_products, true); ?>
+        </div>
       </div>
     <?php endif; ?>
-
-    <div class="brand-info">
-      <div class="brand-description">
-        <?php the_content(); ?>
-      </div>
-    </div>
   </div>
 </div>
 

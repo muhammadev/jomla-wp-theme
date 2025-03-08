@@ -10,7 +10,7 @@ get_header(); // Load the theme's header
 <div id="primary" class="content-area">
   <main id="main" class="site-main">
     <?php
-    $term = get_queried_object(); // Get the current term (e.g., "Hats")
+    $term = get_queried_object();
     $term_id = $term->term_id;
     $term_description = term_description($term_id);
     ?>
@@ -55,7 +55,7 @@ get_header(); // Load the theme's header
       </div><!-- .product-archive-grid -->
     <?php
       // Pagination
-      astra_pagination();
+      jumla_pagination();
 
     else :
       // No posts found

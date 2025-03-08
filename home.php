@@ -29,13 +29,13 @@ get_header(); ?>
       <!-- featured brands -->
       <?php display_featured_brands(); ?>
 
-      <div class="flex flex-col lg:flex-row pt-4">
+      <div class="container mx-auto px-5 flex flex-col lg:flex-row pt-4">
 
         <!-- filter form -->
         <?php product_filter(); ?>
 
         <!-- filtered products -->
-        <div id="filtered-products" class="mb-10 py-5"></div>
+        <div id="filtered-products" class="mb-10 py-5 w-full flex flex-col items-center"></div>
       </div>
     </div>
   <?php

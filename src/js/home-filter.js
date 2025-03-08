@@ -4,9 +4,10 @@ jQuery(document).ready(function ($) {
 
   const $filteredProducts = $("#filtered-products");
   const $productFilterForm = $("#product-filter-form");
-  const $clearFilters = $("#clear-filters");
+  const $clearFilters = $(".clear-filters-btn");
 
   const formFields = {
+    search: $productFilterForm.find("input[name='search']"),
     collection: $productFilterForm.find("select[name='collection']"),
     brand: $productFilterForm.find("select[name='brand']"),
     color: $productFilterForm.find("select[name='color']"),
@@ -15,15 +16,14 @@ jQuery(document).ready(function ($) {
     priceTo: $productFilterForm.find("input[name='price-to']"),
   };
 
-  formFields.collection.on("change", applyFilters);
-  formFields.brand.on("change", applyFilters);
-  formFields.color.on("change", applyFilters);
-  formFields.sale.on("change", applyFilters);
-  formFields.priceFrom.on("input", window.myDebounce(applyFilters, 500));
-  formFields.priceTo.on("input", window.myDebounce(applyFilters, 500));
+  $productFilterForm.on("submit", function (e) {
+    e.preventDefault();
+    applyFilters();
+  });
 
   function hasFilters() {
     return (
+      formFields.search.val() ||
       formFields.collection.val() ||
       formFields.brand.val() ||
       formFields.color.val() ||
@@ -33,7 +33,8 @@ jQuery(document).ready(function ($) {
     );
   }
 
-  function applyFilters() {
+  // apply filters to products
+  function applyFilters(page = 1) {
     if (!hasFilters()) {
       $clearFilters.hide();
     } else {
@@ -41,6 +42,10 @@ jQuery(document).ready(function ($) {
     }
 
     const filter = {
+      search: {
+        value: formFields.search.val(),
+        label: formFields.search.val(),
+      },
       collection: {
         value: formFields.collection.val(),
         label: formFields.collection.find("option:selected").text(),
@@ -75,14 +80,27 @@ jQuery(document).ready(function ($) {
       }
     }
 
-    filterProducts(filterData);
+    filterProducts(filterData, page);
+
+    const modal = $productFilterForm.closest(".modal");
+    try {
+      const modalCloseBtn = modal.find(".close");
+      modalCloseBtn.click();
+    } catch (error) {
+      console.error("Error closing modal:", error);
+    }
   }
 
-  function filterProducts(filter) {
+  // create the ajax request to filter products
+  function filterProducts(filter, page = 1) {
     $.ajax({
       url: $productFilterForm.attr("action"),
       method: "POST",
-      data: { action: "filter_products", filter_data: filter },
+      data: {
+        action: "filter_products",
+        filter_data: filter,
+        page,
+      },
       success: function (response) {
         $filteredProducts.html(response);
       },
@@ -94,13 +112,18 @@ jQuery(document).ready(function ($) {
 
   applyFilters();
 
-  $clearFilters.on("click", function () {
+  function resetFormFields() {
+    formFields.search.val("");
     formFields.collection.val("");
     formFields.brand.val("");
     formFields.sale.prop("checked", false);
     formFields.priceFrom.val("");
     formFields.priceTo.val("");
     formFields.color.val("");
+  }
+
+  $(document).on("click", ".clear-filters-btn", function () {
+    resetFormFields();
 
     applyFilters();
   });
@@ -119,5 +142,16 @@ jQuery(document).ready(function ($) {
 
   repositionFilter();
 
-  //   $(window).on("resize", repositionFilter);
+  // listen to ajax pagination event
+  document.addEventListener("ajaxPaginationTriggered", function (e) {
+    const key = e.detail.key || "";
+    const url = new URL(e.detail.url);
+    const page = url.searchParams.get("page") || 1;
+
+    console.log("Ajax pagination triggered", key, page);
+
+    if (key === "home-filter") {
+      applyFilters(page);
+    }
+  });
 });

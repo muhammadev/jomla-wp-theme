@@ -13,7 +13,8 @@ function display_featured_products()
         'value' => '1',
         'compare' => '=',
       )
-    )
+    ),
+    'suppress_filters' => false,
   );
 
   $query = new WP_Query($args);

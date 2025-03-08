@@ -24,7 +24,7 @@ astra_content_after();
 
 astra_footer_before();
 
-astra_footer();
+jumla_footer();
 
 astra_footer_after();
 ?>
