@@ -112,7 +112,7 @@ function product_filter()
         <hr class="hidden lg:block h-[1px] w-full">
 
         <div class="lg:block flex justify-center mt-4">
-          <button class="reset-button" type="submit"><?php echo esc_html__("Apply Filters", "my-theme-child"); ?></button>
+          <button class="reset-button !bg-primary !border-primary text-white hover:text-white focus:text-white" type="submit"><?php echo esc_html__("Apply Filters", "my-theme-child"); ?></button>
         </div>
       </form>
     </div>
