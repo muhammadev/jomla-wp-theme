@@ -1,4 +1,6 @@
 <?php
+require_once get_stylesheet_directory() . '/includes/hooks/add-featured-brand-column.php';
+
 // Function to extract the first video URL from product colors
 function get_first_video_from_product($product_id)
 {
@@ -51,7 +53,7 @@ function display_products(WP_Query $products, bool $sale_only = false)
   }
 
 ?>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:-mx-5 gap-5 md:gap-0">
     <?php
     while ($products->have_posts()) : $products->the_post();
       $product_id = get_the_ID();
