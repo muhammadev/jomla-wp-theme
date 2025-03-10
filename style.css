@@ -171,3 +171,9 @@ body.overflow-hidden {
   cursor: pointer;
   z-index: 10000;
 }
+
+.ast-scroll-top-icon.ast-scroll-to-top-right {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
