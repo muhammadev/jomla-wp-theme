@@ -29,10 +29,12 @@ if ($product_colors) {
 
       <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold"><?php the_title(); ?></h1>
 
-      <!-- Price -->
-      <div class="my-4">
-        <?php display_product_price(); ?>
-      </div>
+      <?php if (get_field('price')) : ?>
+        <!-- Price -->
+        <div class="my-4">
+          <?php display_product_price(); ?>
+        </div>
+      <?php endif; ?>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12">
@@ -150,14 +152,16 @@ if ($product_colors) {
           <!-- Product Title -->
           <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold"><?php the_title(); ?></h1>
 
-          <!-- Price -->
-          <div class="my-4">
-            <?php display_product_price(); ?>
-          </div>
+          <?php if (get_field('price')) : ?>
+            <!-- Price -->
+            <div class="my-4">
+              <?php display_product_price(); ?>
+            </div>
+          <?php endif; ?>
         </div>
 
         <!-- Colors -->
-        <div class="mb-8">
+        <div class="mb-8 mt-5">
           <div class="mb-3">
             <p class="text-app-gray"><?php echo esc_html__('Color:', 'my-theme-child') ?> <span id="active_color"><?php echo $product_colors['0']['color']->name ?></span></p>
           </div>
@@ -166,12 +170,12 @@ if ($product_colors) {
         </div>
 
         <?php if (!empty($product_sizes)) : ?>
-        <!-- Available Sizes -->
-        <div class="mb-8">
-          <p class="text-app-gray mb-3"><?php echo esc_html__('Available Sizes:', 'my-theme-child') ?></p>
+          <!-- Available Sizes -->
+          <div class="mb-8">
+            <p class="text-app-gray mb-3"><?php echo esc_html__('Available Sizes:', 'my-theme-child') ?></p>
 
-          <?php display_available_sizes($product_sizes); ?>
-        </div>
+            <?php display_available_sizes($product_sizes); ?>
+          </div>
         <?php endif; ?>
 
         <!-- brand -->
@@ -199,8 +203,7 @@ if ($product_colors) {
             id="buy-now"
             class="modal-trigger w-full bg-red-600 hover:bg-red-700 focus:bg-red-700 text-white p-4 rounded disabled:bg-gray-400 disabled:cursor-not-allowed"
             <?php disabled($isSoldOut, true); ?>
-            data-modal="brand-contact-info-modal"
-          >
+            data-modal="brand-contact-info-modal">
             <?php echo esc_html__('Buy Now', 'my-theme-child') ?>
           </button>
 

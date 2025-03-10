@@ -129,22 +129,24 @@
         $price_after_offer = get_field('price_after_offer');
         ?>
 
-        <div class="">
-          <!-- if there's an offer, display the price after offer, if not, display the original price -->
-          <?php if ($has_offer) : $discount_percent = ceil(100 - (intval($price_after_offer) / intval($original_price)) * 100); ?>
-            <p class="text-base text-red-500 !mb-0">
-              <?php echo $price_after_offer . ' ' . __('EGP', 'my-theme-child') . ' ' . $discount_percent . '%' ?>
-            </p>
-            <p class="text-base !mb-0">
-              <?php echo __('Instead of', 'my-theme-child') ?>
-              <span class="line-through">
-                <?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?>
-              </span>
-            </p>
-          <?php else : ?>
-            <p class="text-base"><?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?></p>
-          <?php endif; ?>
-        </div>
+        <?php if ($original_price) : ?>
+          <div class="">
+            <!-- if there's an offer, display the price after offer, if not, display the original price -->
+            <?php if ($has_offer) : $discount_percent = ceil(100 - (intval($price_after_offer) / intval($original_price)) * 100); ?>
+              <p class="text-base text-red-500 !mb-0">
+                <?php echo $price_after_offer . ' ' . __('EGP', 'my-theme-child') . ' ' . $discount_percent . '%' ?>
+              </p>
+              <p class="text-base !mb-0">
+                <?php echo __('Instead of', 'my-theme-child') ?>
+                <span class="line-through">
+                  <?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?>
+                </span>
+              </p>
+            <?php else : ?>
+              <p class="text-base"><?php echo $original_price; ?>&nbsp;<?php echo __('EGP', 'my-theme-child') ?></p>
+            <?php endif; ?>
+          </div>
+        <?php endif; ?>
       </div><!-- .entry-content .clear -->
     </div><!-- .post-content -->
   </div><!-- .blog-layout-4 -->
