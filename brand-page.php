@@ -79,7 +79,7 @@ endwhile;
 
   </div>
 
-  <div class="container mx-auto">
+  <div class="container mx-auto px-5">
     <!-- Brand's Contact Info -->
     <div class="my-12 mx-auto max-w-[80%] flex flex-wrap justify-center gap-5">
       <a class="flex items-center gap-2" href="tel:<?php echo $brand_mobile ?>">
