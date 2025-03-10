@@ -7,7 +7,7 @@ function filter_products()
 
   $args = array(
     'post_type' => 'product',
-    'posts_per_page' => 2, // TODO: change to proper number
+    'posts_per_page' => 10,
     'paged' => $paged,
     'post_status' => 'publish',
     'tax_query' => [],
