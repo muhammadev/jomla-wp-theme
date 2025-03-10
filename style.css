@@ -69,7 +69,7 @@ body,
 }
 
 /* Navigation Slider */
-.nav-slider {
+.nav-slider .slick-list {
   max-width: 200px;
   margin: 20px auto;
 }
