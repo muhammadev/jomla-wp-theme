@@ -51,7 +51,7 @@ function jumla_pagination($args = array(), $is_url_params_mode = false, $is_ajax
       : esc_url(get_pagenum_link($prev_page));
     $html .= '<li><a ' . ($is_ajax ? 'data-key="' . $ajax_key . '"' : '') . 'data-page="' . $prev_page . '" href="' . $prev_link . '" class="' . ($is_ajax ? 'ajax-link ' : '') . 'px-3 py-2 mx-1 text-gray-700 bg-gray-200 rounded hover:bg-primary hover:text-white inline-block">' . esc_html__("Previous", "my-theme-child") . '</a></li>';
   } else {
-    $html .= '<li><span class="inline-block px-3 py-2 mx-1 text-gray-400 bg-gray-200 rounded">Previous</span></li>';
+    $html .= '<li><span class="inline-block px-3 py-2 mx-1 text-gray-400 bg-gray-200 rounded">' . esc_html__("Previous", "my-theme-child") . '</span></li>';
   }
 
   // Determine the range of page numbers to display.
@@ -100,7 +100,7 @@ function jumla_pagination($args = array(), $is_url_params_mode = false, $is_ajax
       : esc_url(get_pagenum_link($next_page));
     $html .= '<li><a ' . ($is_ajax ? 'data-key="' . $ajax_key . '"' : '') . 'data-page="' . $next_link . '" href="' . $next_link . '" class="' . ($is_ajax ? 'ajax-link ' : '') . 'px-3 py-2 mx-1 text-gray-700 bg-gray-200 rounded hover:bg-primary hover:text-white inline-block">' . esc_html__("Next", "my-theme-child") . '</a></li>';
   } else {
-    $html .= '<li><span class="px-3 py-2 mx-1 text-gray-400 bg-gray-200 rounded inline-block">Next</span></li>';
+    $html .= '<li><span class="px-3 py-2 mx-1 text-gray-400 bg-gray-200 rounded inline-block">' . esc_html__("Next", "my-theme-child") . '</span></li>';
   }
 
   $html .= '</ul></nav>';
