@@ -6,7 +6,7 @@
     </button>
   </div>
 
-  <button type="submit" class="reset-button mt-4 md:hidden">
+  <button id="search-submit" type="submit" class="reset-button mt-4 md:hidden">
     <?php echo esc_html__('Apply', 'my-theme-child'); ?>
   </button>
 </form>
