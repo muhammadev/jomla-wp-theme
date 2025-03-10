@@ -150,9 +150,17 @@ function jumla_footer()
             <div>
               <h3 class="text-xl font-bold mb-4"><?php echo esc_html__("Contact Us", "my-theme-child"); ?></h3>
               <div class="flex flex-col gap-4">
-                <a dir="ltr" class="rtl:text-end" href="tel:<?php echo $phone ?>"><?php echo $phone ?></a>
-                <a dir="ltr" class="rtl:text-end" href="mailto:<?php echo $email ?>"><?php echo $email ?></a>
-                <a href="<?php echo $address['url'] ?>" target="<?php echo $address['target'] ? $address['target'] : '_self' ?>"><?php echo esc_attr($address['title']) ?></a>
+                <?php if ($phone) : ?>
+                  <a dir="ltr" class="rtl:text-end" href="tel:<?php echo $phone ?>"><?php echo $phone ?></a>
+                <?php endif; ?>
+
+                <?php if ($email) : ?>
+                  <a dir="ltr" class="rtl:text-end" href="mailto:<?php echo $email ?>"><?php echo $email ?></a>
+                <?php endif; ?>
+
+                <?php if ($address) : ?>
+                  <a href="<?php echo $address['url'] ?>" target="<?php echo $address['target'] ? $address['target'] : '_self' ?>"><?php echo esc_attr($address['title']) ?></a>
+                <?php endif; ?>
               </div>
             </div>
           <?php endif; ?>
