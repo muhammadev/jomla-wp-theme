@@ -44,15 +44,17 @@ get_header(); // Load the theme's header
     <?php
     if (have_posts()) :
     ?>
-      <!-- Product Grid/List -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 product-archive-grid">
-        <?php
-        while (have_posts()) : the_post();
-          // Use your existing content-blog.php template part
-          get_template_part('template-parts/content', 'blog');
-        endwhile;
-        ?>
-      </div><!-- .product-archive-grid -->
+      <div class="container mx-auto pb-5">
+        <!-- Product Grid/List -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 product-archive-grid">
+          <?php
+          while (have_posts()) : the_post();
+            // Use your existing content-blog.php template part
+            get_template_part('template-parts/content', 'blog');
+          endwhile;
+          ?>
+        </div><!-- .product-archive-grid -->
+      </div>
     <?php
       // Pagination
       jumla_pagination();
