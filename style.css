@@ -172,8 +172,9 @@ body.overflow-hidden {
   z-index: 10000;
 }
 
-.ast-scroll-top-icon.ast-scroll-to-top-right {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
+.ast-scroll-top-icon.ast-scroll-to-top-right .ast-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
