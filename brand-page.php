@@ -70,13 +70,16 @@ endwhile;
       <?php endif; ?>
 
       <div class="text-center lg:text-start">
-        <h1 class="text-white text-lg md:text-xl lg:text-3xl mb-4 font-bold"><?php the_title(); ?></h1>
-        <p class="text-white text-base md:text-lg lg:text-xl">
+        <h1 class="<?php if ($brand_background_image) {
+                      echo 'text-white';
+                    } ?> text-lg md:text-xl lg:text-3xl mb-4 font-bold"><?php the_title(); ?></h1>
+        <p class="<?php if ($brand_background_image) {
+                    echo 'text-white';
+                  } ?> text-base md:text-lg lg:text-xl">
           <?php echo $brand_description; ?>
         </p>
       </div>
     </div>
-
   </div>
 
   <div class="container mx-auto px-5">
