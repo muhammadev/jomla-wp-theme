@@ -16,7 +16,7 @@
   <?php astra_entry_top(); ?>
   <div class="ast-post-format- blog-layout-4 ast-article-inner">
     <div class="post-content ast-grid-common-col">
-      <div class="ast-blog-featured-section post-thumb ast-blog-single-element mb-4 relative">
+      <div class="ast-blog-featured-section post-thumb ast-blog-single-element mb-1 relative">
         <div class="post-thumb-img-content post-thumb">
           <a href="<?php the_permalink(); ?>">
             <?php
@@ -85,7 +85,7 @@
           return $a->depth - $b->depth;
         });
 
-        echo '<div class="post-categories mb-2">';
+        echo '<div class="post-categories mb-1">';
         $category_links = array();
 
         foreach ($categories as $category) {
@@ -118,7 +118,7 @@
       }
       ?>
 
-      <h2 class="entry-title ast-blog-single-element text-2xl" itemprop="headline">
+      <h2 class="entry-title ast-blog-single-element text-2xl mb-1" itemprop="headline">
         <a href="<?php the_permalink(); ?>" rel="bookmark"><?php the_title(); ?></a>
       </h2>
 

@@ -84,7 +84,7 @@ function filter_products()
 
   if ($query->have_posts()) :
 ?>
-    <div class="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div class="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 [&>article]:!mb-8">
       <?php
       while ($query->have_posts()) :
         $query->the_post();
