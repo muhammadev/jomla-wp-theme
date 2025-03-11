@@ -1,9 +1,4 @@
 <?php
-require_once get_stylesheet_directory() . '/includes/acf/index.php';
-require_once get_stylesheet_directory() . '/includes/functions/index.php';
-require_once get_stylesheet_directory() . '/includes/brand-utils.php';
-require_once get_stylesheet_directory() . '/includes/product-utils.php';
-
 function add_google_tag()
 {
 ?>
@@ -204,3 +199,10 @@ function ensure_a_plus_two($number)
 }
 
 require_once get_stylesheet_directory() . '/includes/hooks/remove-comments-from-wordpress.php';
+require_once get_stylesheet_directory() . '/includes/acf/index.php';
+require_once get_stylesheet_directory() . '/includes/functions/index.php';
+require_once get_stylesheet_directory() . '/includes/brand-utils.php';
+require_once get_stylesheet_directory() . '/includes/product-utils.php';
+require_once get_stylesheet_directory() . '/includes/hooks/register-product-views-custom-field.php';
+require_once get_stylesheet_directory() . '/includes/hooks/add-product-views-column.php';
+require_once get_stylesheet_directory() . '/includes/hooks/count_product_views.php';

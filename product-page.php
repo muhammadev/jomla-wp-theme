@@ -19,8 +19,11 @@ if ($product_colors) {
     $color_galleries[] = $color['gallery'];
   }
 }
+
+increment_product_views();
 ?>
 
+<div id="product-id" data-id="<?php echo $current_product_id ?>" style="display: none;"></div>
 <div class="max-w-[1440px] mx-auto">
   <div class="product-container w-full top-0 px-8 py-4">
     <div class="block md:hidden">
