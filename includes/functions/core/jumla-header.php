@@ -105,7 +105,7 @@ if (! function_exists('jumla_primary_menu')) {
         </ul>
 
         <button id="close-sidebar" class="reset-button hidden absolute top-0 start-[300px] border-none !bg-white px-4 py-2 rounded-none">
-          <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/close-x.svg" alt=""></i>
+          <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/close-x.svg" alt="" width="16px"></i>
         </button>
       </div>
     </div>
@@ -128,7 +128,7 @@ if (! function_exists('my_theme_custom_header')) {
           if ($main_logo) {
           ?>
             <a href="<?php echo get_home_url(); ?>" class="site-brand text-xl md:text-2xl lg:text-3xl font-bold py-2 h-14">
-              <img class="h-full" height="50px" src="<?php echo $main_logo; ?>" alt="" />
+              <img class="w-full h-full" width="50px" height="50px" src="<?php echo $main_logo; ?>" alt="" />
             </a>
           <?php
           } else {

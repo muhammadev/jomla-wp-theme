@@ -55,7 +55,7 @@ function brand_contact_info_modal($brand_id)
       </div>
 
       <button class="close text-white px-4 py-2 rounded-lg mt-5">
-        <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/close-x.svg" alt=""></i>
+        <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/close-x.svg" alt="" width="16px"></i>
       </button>
     </div>
   </div>
