@@ -30,7 +30,7 @@ increment_product_views();
       <!-- Display Hierarchical Categories -->
       <?php display_hierarchical_collections($collections, $current_language); ?>
 
-      <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold"><?php the_title(); ?></h1>
+      <h1 class="text-xl md:text-2xl lg:text-3xl font-semibold mb-2"><?php the_title(); ?></h1>
 
       <?php if (get_field('price')) : ?>
         <!-- Price -->
@@ -40,7 +40,7 @@ increment_product_views();
       <?php endif; ?>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-12" style="min-height: 70vh;">
       <div class="product-gallery md:sticky md:top-0 md:h-fit">
         <?php
         if ($product_colors) {
@@ -49,7 +49,7 @@ increment_product_views();
         ?>
             <!-- Main Slider -->
             <div class="main-slider-container" data-index="<?php echo $index; ?>">
-              <div class="main-slider product-slider">
+              <div class="main-slider product-slider" style="display: none;">
                 <?php
                 if ($gallery) {
                   $viewerIndex = 0;
@@ -67,7 +67,7 @@ increment_product_views();
 
                     // Check if the media is an image
                     if (wp_attachment_is_image($media_id)) {
-                      echo '<div><img class="max-h-[80vh] object-contain" fetchpriority="high" data-index="' . $viewerIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
+                      echo '<div><img width="500px" height="500px" class="max-h-[80vh] object-contain" fetchpriority="high" data-index="' . $viewerIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
                       $viewerIndex++;
                     } else {
                       // Video element for non-image media
@@ -99,7 +99,7 @@ increment_product_views();
 
                     // Check if the media is an image
                     if (wp_attachment_is_image($media_id)) {
-                      echo '<img loading="lazy" class="w-full" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '">';
+                      echo '<img width="90px" height="90px" loading="lazy" class="w-full" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '">';
                     } else {
                       echo '<video loading="lazy" controls>
                                 <source src="' . esc_url($media_url) . '" type="' . esc_attr(get_post_mime_type($media_id)) . '">
@@ -114,7 +114,7 @@ increment_product_views();
             </div>
 
             <!-- Navigation Slider (Thumbnails) -->
-            <div class="nav-slider" data-index="<?php echo $index; ?>">
+            <div class="nav-slider" data-index="<?php echo $index; ?>" style="display: none;">
               <?php
               if ($gallery) {
                 foreach ($gallery as $mediaIndex => $media) {
@@ -130,7 +130,7 @@ increment_product_views();
                   // Check if the media is an image
                   if (wp_attachment_is_image($media_id)) {
                     $thumb_url = wp_get_attachment_image_url($media_id, 'thumbnail');
-                    echo '<div><img loading="lazy" src="' . esc_url($thumb_url) . '" alt="' . esc_attr($alt) . '"></div>';
+                    echo '<div><img width="90px" height="90px" loading="lazy" src="' . esc_url($thumb_url) . '" alt="' . esc_attr($alt) . '"></div>';
                   } else {
                     // For video thumbnails, get the featured image (or placeholder)
                     $thumb_url = wp_get_attachment_image_url($media_id, 'thumbnail') ?: esc_url(wp_upload_dir()['baseurl'] . '/custom-uploads/icons8-video-50.png');

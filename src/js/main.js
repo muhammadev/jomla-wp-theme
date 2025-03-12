@@ -35,6 +35,7 @@ jQuery(document).ready(function ($) {
 
     $(container)
       .find(".main-slider")
+      .show()
       .slick({
         rtl: isRTL,
         slidesToShow: 1,

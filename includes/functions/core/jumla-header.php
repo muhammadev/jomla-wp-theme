@@ -127,8 +127,8 @@ if (! function_exists('my_theme_custom_header')) {
           $main_logo = get_field("main_website_logo", "option");
           if ($main_logo) {
           ?>
-            <a href="<?php echo get_home_url(); ?>" class="site-brand text-xl md:text-2xl lg:text-3xl font-bold py-2 h-14">
-              <img class="w-full h-full" width="50px" height="50px" src="<?php echo $main_logo; ?>" alt="" />
+            <a href="<?php echo get_home_url(); ?>" class="site-brand text-xl md:text-2xl lg:text-3xl font-bold py-2">
+              <img class="object-contain" width="100px" height="50px" src="<?php echo $main_logo; ?>" alt="" />
             </a>
           <?php
           } else {

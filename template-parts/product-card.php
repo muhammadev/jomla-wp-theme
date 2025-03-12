@@ -22,13 +22,7 @@
             <?php
             if (has_post_thumbnail()) {
 
-              the_post_thumbnail('large', array(
-                'class' => 'attachment-large size-large wp-post-image',
-                'alt'   => get_the_title(),
-                'itemprop' => 'image',
-                'decoding' => 'async',
-                'fetchpriority' => 'auto',
-              ));
+              the_post_thumbnail('medium');
             } else {
             ?>
               <img src="https://placehold.co/600x400?text=JumlaBox&font=roboto" alt="JumlaBox">
