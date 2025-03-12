@@ -1,10 +1,11 @@
 const path = require("path");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-  entry: "./src/js/main.js", // Entry file for your theme's scripts
+  entry: "./src/js/main.js",
   output: {
-    filename: "main.js", // Output file
-    path: path.resolve(__dirname, "dist/js"), // Output folder
+    filename: "main.js",
+    path: path.resolve(__dirname, "dist/js"),
   },
   module: {
     rules: [
@@ -14,31 +15,32 @@ module.exports = {
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env"], // For ES6+ compatibility
+            presets: ["@babel/preset-env"],
           },
         },
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          "style-loader", // Injects styles into the DOM
-          "css-loader", // Resolves CSS imports
-          "postcss-loader", // Processes Tailwind CSS with PostCSS
-          "sass-loader", // Compiles Sass to CSS
+          MiniCssExtractPlugin.loader, // Extracts CSS into a file
+          "css-loader",
+          "postcss-loader",
+          "sass-loader",
         ],
       },
       {
         test: /\.css$/,
-        use: [
-          "style-loader",
-          "css-loader",
-          "postcss-loader",
-        ],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
     ],
   },
+  plugins: [
+    new MiniCssExtractPlugin({
+      filename: "../css/main.css", // Output CSS file in "dist/css"
+    }),
+  ],
   resolve: {
     extensions: [".js", ".scss", ".css"],
   },
-  mode: "development", // Use 'development' for debugging
+  mode: "development",
 };

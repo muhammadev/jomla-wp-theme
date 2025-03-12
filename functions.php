@@ -63,10 +63,12 @@ function enqueue_assets()
   wp_enqueue_style('slick-theme-css', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css', ['slick-css'], '1.8.1');
   // Enqueue Slick JS
   wp_enqueue_script('slick-js', 'https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js', ['jquery'], '1.8.1', true);
-  wp_enqueue_style('tailwind-css', get_stylesheet_directory_uri() . '/dist/tailwind.css');
 
   // Enqueue the child theme's main stylesheet (style.css)
   wp_enqueue_style('child-theme-style', get_stylesheet_uri());
+
+  // Enqueue custom css
+  wp_enqueue_style('theme-css', get_stylesheet_directory_uri() . '/dist/css/main.css');
 
   // Jquery sidebar plugin
   wp_enqueue_script('jquery-sidebar', get_stylesheet_directory_uri() . '/src/assets/js/jquery.sidebar.min.js');
