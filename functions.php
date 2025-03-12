@@ -38,6 +38,23 @@ function add_gtm_after_body()
 add_action('wp_body_open', 'add_gtm_after_body');
 
 
+/**
+ * Add resource hints for external scripts and styles.
+ */
+function theme_resource_hints($hints, $relation_type)
+{
+  if ('preconnect' === $relation_type) {
+    $hints[] = 'https://cdnjs.cloudflare.com';
+  }
+
+  if ('dns-prefetch' === $relation_type) {
+    $hints[] = 'https://cdnjs.cloudflare.com';
+  }
+
+  return $hints;
+}
+add_filter('wp_resource_hints', 'theme_resource_hints', 10, 2);
+
 function enqueue_assets()
 {
   // Enqueue Slick CSS
@@ -58,6 +75,21 @@ function enqueue_assets()
 }
 add_action('wp_enqueue_scripts', 'enqueue_assets');
 
+function add_google_fonts_preload()
+{
+?>
+  <!-- Preconnect for faster font loading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload Google Fonts to reduce render-blocking -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" as="style">
+
+  <!-- Load the font stylesheet -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<?php
+}
+add_action('wp_head', 'add_google_fonts_preload');
 
 function my_theme_child_enqueue_styles() {}
 add_action('wp_enqueue_scripts', 'my_theme_child_enqueue_styles');
