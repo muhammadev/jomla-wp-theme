@@ -85,28 +85,32 @@ endwhile;
   <div class="container mx-auto px-5">
     <!-- Brand's Contact Info -->
     <div class="my-12 mx-auto max-w-[80%] flex flex-wrap justify-center gap-5">
-      <a class="flex items-center gap-2" href="tel:<?php echo $brand_mobile ?>">
+      <?php if ($brand_mobile) : ?>
+        <a class="flex items-center gap-2" href="tel:<?php echo $brand_mobile ?>">
+          <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/phone.svg" alt=""></i>
+          <p dir="ltr" class="text-md md:text-lg lg:text-xl">
+            <?php echo $brand_mobile; ?>
+          </p>
+        </a>
+      <?php endif; ?>
 
+      <?php if ($brand_whatsapp) : ?>
+        <a class="flex items-center gap-2" href="https://wa.me/<?php echo $brand_whatsapp ?>" target="_blank">
+          <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/wa.svg" alt=""></i>
+          <p dir="ltr" class="text-base md:text-lg lg:text-xl">
+            <?php echo $brand_whatsapp; ?>
+          </p>
+        </a>
+      <?php endif; ?>
 
-        <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/phone.svg" alt=""></i>
-        <p dir="ltr" class="text-md md:text-lg lg:text-xl">
-          <?php echo $brand_mobile; ?>
-        </p>
-      </a>
-
-      <a class="flex items-center gap-2" href="https://wa.me/<?php echo $brand_whatsapp ?>" target="_blank">
-        <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/wa.svg" alt=""></i>
-        <p dir="ltr" class="text-base md:text-lg lg:text-xl">
-          <?php echo $brand_whatsapp; ?>
-        </p>
-      </a>
-
-      <a class="flex items-center gap-2" href="https://t.me/<?php echo $brand_telegram; ?>" target="_blank">
-        <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/telegram.svg" alt=""></i>
-        <p dir="ltr" class="text-md md:text-lg lg:text-xl">
-          <?php echo $brand_telegram; ?>
-        </p>
-      </a>
+      <?php if ($brand_telegram) : ?>
+        <a class="flex items-center gap-2" href="https://t.me/<?php echo $brand_telegram; ?>" target="_blank">
+          <i class="inline-block w-4 md:w-5 lg:w-6"><img src="<?php echo get_stylesheet_directory_uri() ?>/src/assets/imgs/telegram.svg" alt=""></i>
+          <p dir="ltr" class="text-md md:text-lg lg:text-xl">
+            <?php echo $brand_telegram; ?>
+          </p>
+        </a>
+      <?php endif; ?>
     </div>
 
     <!-- Description -->
