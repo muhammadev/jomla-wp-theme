@@ -67,11 +67,11 @@ increment_product_views();
 
                     // Check if the media is an image
                     if (wp_attachment_is_image($media_id)) {
-                      echo '<div><img class="max-h-[80vh] object-contain" loading="lazy" data-index="' . $viewerIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
+                      echo '<div><img class="max-h-[80vh] object-contain" fetchpriority="high" data-index="' . $viewerIndex . '" src="' . esc_url($media_url) . '" alt="' . esc_attr($alt) . '"></div>';
                       $viewerIndex++;
                     } else {
                       // Video element for non-image media
-                      echo '<div><video loading="lazy" controls class="max-h-[80vh]">
+                      echo '<div><video fetchpriority="high" controls class="max-h-[80vh]">
                                 <source src="' . esc_url($media_url) . '" type="' . esc_attr(get_post_mime_type($media_id)) . '">
                                 Your browser does not support the video tag.
                             </video></div>';
